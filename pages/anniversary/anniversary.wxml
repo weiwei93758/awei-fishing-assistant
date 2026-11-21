@@ -1,7 +1,14 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
   <view class="hero">
     <text class="hero-title">往年今日渔获</text>
     <text class="hero-sub">选个日期，看看同一天往年钓了多少</text>
+  </view>
+
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
+  <view class="card" wx:if="{{bundle.dataNote}}">
+    <text class="note" style="margin-bottom:0">{{bundle.dataNote}}</text>
   </view>
 
   <view class="card">
@@ -99,7 +106,7 @@
   </view>
 
   <view class="card" wx:if="{{!hasQueried}}">
-    <text class="note" style="margin-bottom:0">数据说明：历史同日来自 5 次亲身钓记与本机“记一笔”记录；“爆箱”等无具体数量的只标注、不估算。数量统计为参考，不代表科学规律。</text>
+    <text class="note" style="margin-bottom:0">当前地区：{{regionName}}。{{bundle.anniversaryNote}}</text>
   </view>
 
   <view class="footer">数据更新 2026-11-22 · 本人专用</view>

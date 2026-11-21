@@ -1,12 +1,26 @@
 // pages/anniversary/anniversary.js
 var A = require('../../utils/anniversary.js');
-var HISTORY = require('../../utils/fishing-log.js').logs;
+var regions = require('../../utils/regions.js');
+var M = require('../../utils/region-mixin.js');
 var STORAGE_KEY = 'fishing_records_v1';
 
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
 
-Page({
-  data: {
+function buildQuickKeys(logs) {
+  var quick = [];
+  var seen = {};
+  for (var i = 0; i < (logs || []).length; i++) {
+    var parts = String(logs[i].date || '').split('-');
+    if (parts.length !== 3) continue;
+    var key = pad2(parseInt(parts[1], 10)) + '-' + pad2(parseInt(parts[2], 10));
+    if (!seen[key]) { seen[key] = 1; quick.push(key); }
+  }
+  if (quick.length > 6) quick = quick.slice(0, 6);
+  return quick;
+}
+
+Page(Object.assign({}, M.methods, {
+  data: Object.assign({}, M.baseData(), {
     input: '',
     todayLabel: '',
     todayKey: '',
@@ -18,41 +32,48 @@ Page({
     maxTotal: 1,
     hasQueried: false,
     quickKeys: []
-  },
+  }),
 
   onLoad: function() {
     var t = A.getToday();
     var label = t.y + '年' + t.m + '月' + t.d + '日';
-    // 快捷日期：历史里有记录的月日（去重，最多 6 个）+ 今天
-    var quick = [];
-    var seen = {};
-    for (var i = 0; i < HISTORY.length; i++) {
-      var parts = HISTORY[i].date.split('-');
-      var key = pad2(parseInt(parts[1], 10)) + '-' + pad2(parseInt(parts[2], 10));
-      if (!seen[key]) { seen[key] = 1; quick.push(key); }
-    }
-    if (quick.length > 6) quick = quick.slice(0, 6);
     this.setData({
       todayLabel: label,
       todayKey: A.dateKey(t.m, t.d),
       input: A.dateKey(t.m, t.d),
-      quickKeys: quick
+      quickKeys: buildQuickKeys(this.data.bundle.logs)
     });
   },
 
   onShow: function() {
+    var before = this.data.regionId;
+    this.syncRegion();
+    if (this.data.regionId === before) this.loadDataset();
+  },
+
+  onRegionUpdated: function(region) {
+    // 地区变了，历史样本与本机记录范围都变了，清空旧结果
+    this.setData({
+      result: null,
+      error: '',
+      compareText: '',
+      hasQueried: false,
+      quickKeys: buildQuickKeys(region.bundle.logs)
+    });
     this.loadDataset();
   },
 
   loadDataset: function() {
+    var that = this;
     var local = [];
     try {
       var raw = wx.getStorageSync(STORAGE_KEY);
       local = Array.isArray(raw) ? raw : [];
     } catch (e) { local = []; }
-    var ds = A.normalize(HISTORY, local);
+    // 只统计当前地区的本机记录；旧记录无 region 字段，归到广航
+    local = local.filter(function(r) { return regions.isRecordOfRegion(r, that.data.regionId); });
+    var ds = A.normalize(that.data.bundle.logs, local, that.data.bundle.anniversarySpot);
     this.setData({ dataset: ds });
-    // 若已查询过，数据变化后自动刷新结果
     if (this.data.hasQueried && this.data.input) this.doQuery();
   },
 
@@ -117,4 +138,4 @@ Page({
   goRecord: function() {
     wx.switchTab({ url: '/pages/record/record' });
   }
-});
+}));

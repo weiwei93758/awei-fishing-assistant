@@ -1,5 +1,6 @@
 // pages/record/record.js
-const { formOptions } = require('../../utils/form-options.js');
+const M = require('../../utils/region-mixin.js');
+const regions = require('../../utils/regions.js');
 
 const STORAGE_KEY = 'fishing_records_v1';
 
@@ -22,13 +23,13 @@ function buildForm() {
   };
 }
 
-Page({
-  data: {
-    opts: formOptions,
+Page(Object.assign({}, M.methods, {
+  data: Object.assign({}, M.baseData(), {
+    opts: M.baseData().bundle.formOptions,
     form: buildForm(),
     records: [],
     today: ''
-  },
+  }),
 
   onLoad: function() {
     var now = new Date();
@@ -44,6 +45,17 @@ Page({
   },
 
   onShow: function() {
+    var before = this.data.regionId;
+    this.syncRegion();
+    if (this.data.regionId === before) this.loadRecords();
+  },
+
+  onRegionUpdated: function(region) {
+    var opts = region.bundle.formOptions;
+    var form = this.data.form;
+    // 地区切换后钓点列表可能变短，防止下标越界
+    if (form.spotIndex >= opts.spots.length) form.spotIndex = 0;
+    this.setData({ opts: opts, form: form });
     this.loadRecords();
   },
 
@@ -52,6 +64,8 @@ Page({
     try {
       var raw = wx.getStorageSync(STORAGE_KEY);
       var records = Array.isArray(raw) ? raw : [];
+      // 旧记录没有 region 字段，按广航处理，保证原有流程不受影响
+      records = records.filter(function(r) { return regions.isRecordOfRegion(r, that.data.regionId); });
       records.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
       that.setData({ records: records });
     } catch (e) {
@@ -119,13 +133,15 @@ Page({
   saveRecord: function() {
     var that = this;
     var f = this.data.form;
-    var o = formOptions;
+    var o = this.data.opts;
     if (!f.date) {
       wx.showToast({ title: '请选择日期', icon: 'none' });
       return;
     }
     var record = {
       id: 'r' + Date.now(),
+      region: this.data.regionId,
+      regionName: this.data.regionName,
       date: f.date,
       spot: o.spots[f.spotIndex],
       structure: o.structure[f.structureIndex],
@@ -150,7 +166,7 @@ Page({
       // 把临时图片拷到本机永久目录后回写路径
       that.persistImages(record, records);
 
-      wx.showToast({ title: '已保存', icon: 'success' });
+      wx.showToast({ title: '已保存到' + that.data.regionName, icon: 'none' });
       that.setData({ form: buildForm() });
       var nf = that.data.form;
       nf.date = that.data.today;
@@ -224,4 +240,4 @@ Page({
     nf.date = this.data.today;
     this.setData({ form: nf });
   }
-});
+}));

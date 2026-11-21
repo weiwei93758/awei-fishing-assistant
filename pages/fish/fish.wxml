@@ -1,4 +1,11 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
+  <view class="card" wx:if="{{bundle.dataNote}}">
+    <text class="note" style="margin-bottom:0">{{bundle.dataNote}}</text>
+  </view>
+
   <view class="card">
     <text class="section-title">鱼种与季节</text>
     <text class="note">红块＝通常较好，浅橙＝可尝试，灰＝一般。窗口期为经验，具体鱼情随水温、风向变化。</text>
@@ -20,7 +27,7 @@
   <view class="card">
     <text class="section-title">海况截图 · 数值怎么读</text>
     <image class="real-img" src="/images/sea-forecast.jpg" mode="widthFix"></image>
-    <view class="warnbox" style="margin-bottom:16rpx">这是 11 月 10 日的历史截图，数据源 ECMWF WAM（欧洲中期天气预报中心波浪模型），属模型预报、非实测，不代表当前海况。</view>
+    <view class="warnbox" style="margin-bottom:16rpx">这是 11 月 10 日的历史截图，数据源 ECMWF WAM（欧洲中期天气预报中心波浪模型），属模型预报、非实测，不代表当前海况。读图方法为通用知识。</view>
     <view class="kv" wx:for="{{seaGuide}}" wx:key="label">
       <text class="k2">{{item.label}}</text>
       <text class="v2">{{item.meaning}}；{{item.tip}}</text>

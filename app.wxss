@@ -62,3 +62,42 @@ view, text {
 button {
   border-radius: 16rpx;
 }
+
+/* 通用地区选择条 */
+.region-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #e8f4f8;
+  border: 2rpx solid #bcd9e5;
+  border-radius: 16rpx;
+  padding: 18rpx 22rpx;
+  margin-bottom: 24rpx;
+}
+.region-bar-label {
+  font-size: 24rpx;
+  color: #5b7684;
+  margin-right: 16rpx;
+}
+.region-bar-picker {
+  display: inline-flex;
+  align-items: center;
+  background: #0e6b8a;
+  border-radius: 24rpx;
+  padding: 8rpx 24rpx;
+}
+.region-bar-name {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #ffffff;
+}
+.region-bar-arrow {
+  font-size: 24rpx;
+  color: #ffffff;
+  margin-left: 10rpx;
+}
+.region-bar-tip {
+  font-size: 22rpx;
+  color: #7d8f99;
+  margin-left: auto;
+}

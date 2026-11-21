@@ -1,0 +1,13 @@
+<!-- 通用地区选择条：各页面 <import src="/templates/region-bar.wxml" /> 后使用 -->
+<template name="regionBar">
+  <view class="region-bar">
+    <text class="region-bar-label">当前地区</text>
+    <picker mode="selector" range="{{regionNames}}" value="{{regionIndex}}" bindchange="onRegionChange">
+      <view class="region-bar-picker">
+        <text class="region-bar-name">{{regionName}}</text>
+        <text class="region-bar-arrow">▾</text>
+      </view>
+    </picker>
+    <text class="region-bar-tip">切换后内容同步更新</text>
+  </view>
+</template>

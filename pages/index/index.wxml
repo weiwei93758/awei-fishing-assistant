@@ -1,8 +1,15 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
   <view class="hero">
     <text class="hero-title">阿威专属海钓</text>
-    <text class="hero-sub">鲅鱼圈 · 望海寨 · 广航一带</text>
+    <text class="hero-sub">{{region.heroSub}}</text>
     <text class="hero-note">本人专用 · 本地数据 · 无需登录</text>
+  </view>
+
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
+  <view class="card" wx:if="{{bundle.dataNote}}">
+    <text class="note" style="margin-bottom:0">{{bundle.dataNote}}</text>
   </view>
 
   <view class="card">
@@ -23,19 +30,11 @@
 
   <view class="card">
     <text class="section-title">今日提示</text>
-    <view class="tip-row">
-      <text class="tip-label">季节</text>
-      <text class="tip-value">11 月下旬 · 深秋</text>
+    <view class="tip-row" wx:for="{{bundle.tips}}" wx:key="label">
+      <text class="tip-label">{{item.label}}</text>
+      <text class="tip-value">{{item.value}}</text>
     </view>
-    <view class="tip-row">
-      <text class="tip-label">主推</text>
-      <text class="tip-value">礁石黑鲪、岸钓海鲶鱼</text>
-    </view>
-    <view class="tip-row">
-      <text class="tip-label">已过</text>
-      <text class="tip-value">鲅鱼主汛（7—10 月）</text>
-    </view>
-    <view class="warnbox" style="margin-top:16rpx">此为按鱼种窗口期的季节推算，不是实时鱼情。风浪、水温会改变鱼口，出海前请看 Windy 等实时数据。</view>
+    <view class="warnbox" style="margin-top:16rpx">{{bundle.tipWarn}}</view>
   </view>
 
   <view class="card link-card" bindtap="goRecord" style="background:#e8f4f8;border-left:8rpx solid #0e6b8a">
@@ -61,7 +60,7 @@
 
   <view class="card link-card" bindtap="goLog">
     <text class="section-title">我的钓记 · 知识库</text>
-    <text class="note" style="margin-bottom:0">2026 年广航 5 次亲身记录与规律总结 → 点此查看</text>
+    <text class="note" style="margin-bottom:0">{{bundle.logCardText}}</text>
   </view>
 
   <view class="card link-card" bindtap="goTools">
@@ -79,5 +78,5 @@
     <text class="note" style="margin-top:12rpx;margin-bottom:0">点任意钓点进入“钓点”页查看完整档案。</text>
   </view>
 
-  <view class="footer">数据更新：2026-11-21 · 钓友经验与公开资料整理</view>
+  <view class="footer">数据更新：2026-11-22 · 钓友经验与公开资料整理</view>
 </view>

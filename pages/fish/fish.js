@@ -1,4 +1,4 @@
-const data = require('../../utils/data.js');
+const M = require('../../utils/region-mixin.js');
 
 function buildCells(months) {
   return months.map(function(v, i) {
@@ -9,15 +9,26 @@ function buildCells(months) {
   });
 }
 
-Page({
-  data: {
-    fishes: [],
-    seaGuide: data.seaGuide
+function buildFishes(bundle) {
+  return (bundle.fishes || []).map(function(f) {
+    return Object.assign({}, f, { monthCells: buildCells(f.months || []) });
+  });
+}
+
+Page(Object.assign({}, M.methods, {
+  data: Object.assign({}, M.baseData(), {
+    fishes: buildFishes(M.baseData().bundle),
+    seaGuide: M.baseData().bundle.seaGuide
+  }),
+
+  onShow: function() {
+    this.syncRegion();
   },
-  onLoad: function() {
-    const fishes = data.fishes.map(function(f) {
-      return Object.assign({}, f, { monthCells: buildCells(f.months) });
+
+  onRegionUpdated: function(region) {
+    this.setData({
+      fishes: buildFishes(region.bundle),
+      seaGuide: region.bundle.seaGuide
     });
-    this.setData({ fishes: fishes });
   }
-});
+}));

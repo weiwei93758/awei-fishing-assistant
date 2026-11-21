@@ -1,9 +1,12 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
   <view class="hero">
     <text class="hero-title">记一笔</text>
     <text class="hero-sub">下拉选好，拍张照，存进本机</text>
     <text class="hero-note">每次出钓记一条，慢慢攒成自己的鱼情库</text>
   </view>
+
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
 
   <!-- 表单 -->
   <view class="card">
@@ -185,6 +188,6 @@
 
   <view class="card">
     <text class="section-title">说明</text>
-    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。已有的 5 次历史钓记在“钓记”页，不受这里影响。</text>
+    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。每条记录会带上当前地区，切换地区只改变查看范围，不会删除其他地区的记录；历史钓记在“钓记”页按地区展示。</text>
   </view>
 </view>

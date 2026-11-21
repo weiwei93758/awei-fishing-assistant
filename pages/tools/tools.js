@@ -1,4 +1,5 @@
 const data = require('../../utils/data.js');
+const M = require('../../utils/region-mixin.js');
 
 const STORAGE_KEY = 'fishing_gear_v1';
 
@@ -17,16 +18,16 @@ function makeDayLabels() {
   return arr;
 }
 
-Page({
-  data: {
+Page(Object.assign({}, M.methods, {
+  data: Object.assign({}, M.baseData(), {
     dayLabels: makeDayLabels(),
     dayIndex: -1,
     selectedLabel: '',
     advice: null,
     gearList: [],
-    safety: data.safety,
-    sources: data.sources
-  },
+    safety: M.baseData().bundle.safety,
+    sources: M.baseData().bundle.sources
+  }),
 
   onLoad: function() {
     let saved = [];
@@ -39,6 +40,18 @@ Page({
       return { text: text, checked: saved.indexOf(i) !== -1 };
     });
     this.setData({ gearList: gearList });
+  },
+
+  onShow: function() {
+    this.syncRegion();
+  },
+
+  onRegionUpdated: function(region) {
+    this.setData({
+      safety: region.bundle.safety,
+      sources: region.bundle.sources,
+      advice: null
+    });
   },
 
   onDayChange: function(event) {
@@ -55,7 +68,7 @@ Page({
       wx.showToast({ title: '请先选农历日期', icon: 'none' });
       return;
     }
-    const advice = data.tideAdvice(idx + 1);
+    const advice = this.data.bundle.tideAdvice(idx + 1);
     this.setData({ advice: advice });
   },
 
@@ -84,4 +97,4 @@ Page({
       }
     });
   }
-});
+}));

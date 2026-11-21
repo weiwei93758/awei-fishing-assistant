@@ -1,4 +1,7 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
   <view class="card">
     <text class="section-title">潮汐窗口速查</text>
     <text class="note">经验口诀：农历初一至初四、十六至十八通常大潮，落差大、鱼群靠岸机会多。本工具只做规律提示，不给具体潮时。</text>
@@ -13,13 +16,13 @@
     <view class="result" wx:if="{{advice}}">
       <text class="result-title">{{advice.title}}</text>
       <text class="result-text">{{advice.text}}</text>
-      <text class="warnbox" style="display:block;margin-top:14rpx">安全提醒：涨潮前 1 小时撤离滩涂；风力 5 级及以上不要出海或登礁。精确潮时请用潮汐 App 定位鲅鱼圈／望海寨查询。</text>
+      <text class="warnbox" style="display:block;margin-top:14rpx">安全提醒：涨潮前 1 小时撤离滩涂；风力 5 级及以上不要出海或登礁。精确潮时请用潮汐 App 定位{{region.tideLocation}}查询。</text>
     </view>
   </view>
 
   <view class="card">
     <text class="section-title">装备清单</text>
-    <text class="note">勾选状态保存在本机，下次打开仍保留。</text>
+    <text class="note">勾选状态保存在本机，下次打开仍保留。装备清单为通用参考，不因地区切换而改变。</text>
     <view class="gear-item" wx:for="{{gearList}}" wx:key="idx" data-idx="{{index}}" bindtap="toggleGear">
       <view class="checkbox {{item.checked ? 'checked' : ''}}">{{item.checked ? '✓' : ''}}</view>
       <text class="gear-text {{item.checked ? 'done' : ''}}">{{item.text}}</text>
@@ -41,6 +44,7 @@
       <text class="src-text">{{item.text}}</text>
       <text class="src-copy">点按复制链接</text>
     </view>
+    <text class="note" wx:if="{{sources.length === 0}}" style="margin-top:16rpx;margin-bottom:0">当前地区暂无可核实的公开资料链接。可在 utils/regions.js 中为该地区补充 sources。</text>
     <text class="note" style="margin-top:16rpx;margin-bottom:0">本工具为公开资料整理，不提供实时潮汐、实时鱼情与领航服务。钓点开放状态与收费以现场告示为准，安全责任自负。</text>
   </view>
 </view>

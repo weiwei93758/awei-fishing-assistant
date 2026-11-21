@@ -87,7 +87,8 @@ function extractCount(rec) {
 }
 
 // 统一历史钓记与本机记录的结构
-function normalize(historyLogs, localRecords) {
+// spotLabel：历史钓记的地区标签，由调用方按当前地区传入；缺省仍为广航，保持向后兼容
+function normalize(historyLogs, localRecords, spotLabel) {
   var out = [];
   var i, r, parts;
   historyLogs = historyLogs || [];
@@ -105,7 +106,7 @@ function normalize(historyLogs, localRecords) {
       count: extractCount(r),
       text: r.catchText || r.result || '未记录',
       result: r.result || '',
-      spot: '广航一带',
+      spot: spotLabel || '广航一带',
       source: '历史钓记',
       tide: r.tide || '',
       note: r.note || ''

@@ -1,5 +1,12 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
   <text class="note">地貌来自政府公示与公开报道；鱼情为钓友经验，非官方统计、非实时鱼获保证。</text>
+
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
+  <view class="card" wx:if="{{bundle.dataNote}}">
+    <text class="note" style="margin-bottom:0">{{bundle.dataNote}}</text>
+  </view>
 
   <view class="card spot-card" wx:for="{{spots}}" wx:key="id">
     <view class="spot-head">
@@ -13,7 +20,7 @@
     <view class="warnbox">{{item.warning}}</view>
   </view>
 
-  <view class="card">
+  <view class="card" wx:if="{{region.showSatellite}}">
     <text class="section-title">卫星图 · 地貌怎么认</text>
     <image class="real-img" src="/images/satellite-terrain.jpg" mode="widthFix"></image>
     <view class="warnbox" style="margin-bottom:16rpx">高德卫星底图截图，未显示地名标签，无法仅凭它 100% 确认就是广航防波堤。以下为可见地貌的客观描述。</view>

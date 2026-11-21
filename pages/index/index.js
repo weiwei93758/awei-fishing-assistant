@@ -1,9 +1,22 @@
 const data = require('../../utils/data.js');
+const M = require('../../utils/region-mixin.js');
 
-Page({
-  data: {
+Page(Object.assign({}, M.methods, {
+  data: Object.assign({}, M.baseData(), {
     links: data.externalLinks,
-    spots: data.spots
+    spots: M.baseData().bundle.spots
+  }),
+
+  onLoad: function() {
+    // 地区数据已在 baseData 中载入；保留钩子便于日后扩展
+  },
+
+  onShow: function() {
+    this.syncRegion();
+  },
+
+  onRegionUpdated: function(region) {
+    this.setData({ spots: region.bundle.spots });
   },
 
   copyLink(event) {
@@ -48,4 +61,4 @@ Page({
   goTools() {
     wx.navigateTo({ url: '/pages/tools/tools' });
   }
-});
+}));

@@ -1,13 +1,20 @@
+<import src="/templates/region-bar.wxml" />
 <view class="page">
   <view class="hero">
-    <text class="hero-title">广航海钓知识库</text>
-    <text class="hero-sub">2026 年本人 5 次亲身记录</text>
+    <text class="hero-title">{{bundle.logTitle}}</text>
+    <text class="hero-sub">{{bundle.logSub}}</text>
     <text class="hero-note">事实与推断分开标注 · 为以后出钓提供依据</text>
   </view>
 
-  <view class="card">
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
+  <view class="card" wx:if="{{bundle.dataNote}}">
+    <text class="note" style="margin-bottom:0">{{bundle.dataNote}}</text>
+  </view>
+
+  <view class="card" wx:if="{{logs.length > 0}}">
     <text class="section-title">出钓记录 · 时间线</text>
-    <text class="note">按日期从早到晚。潮汐窗口为经验划分，非精确潮时；标“未记录”的表示当时没记住，未作补造。</text>
+    <text class="note">{{bundle.logNote}}</text>
 
     <view class="log-item" wx:for="{{logs}}" wx:key="id">
       <view class="log-head">
@@ -30,9 +37,14 @@
     </view>
   </view>
 
+  <view class="card" wx:if="{{logs.length === 0}}">
+    <text class="section-title">暂无该地区钓记</text>
+    <text class="note" style="margin-bottom:0">{{bundle.logNote}}</text>
+  </view>
+
   <view class="card">
     <text class="section-title">规律总结</text>
-    <text class="note">以下基于 5 次样本归纳，含钓法有效性，样本量小，属经验假设，不是定论。</text>
+    <text class="note">以下基于现有样本归纳，含钓法有效性，样本量小，属经验假设，不是定论。</text>
     <view class="insight" wx:for="{{insights}}" wx:key="title">
       <text class="insight-title">{{item.title}}</text>
       <text class="insight-body">{{item.body}}</text>
