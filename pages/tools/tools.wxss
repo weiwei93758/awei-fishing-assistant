@@ -1,0 +1,150 @@
+.picker {
+  display: flex;
+  align-items: center;
+  background: #f4f8fb;
+  border: 2rpx solid #dce7ee;
+  border-radius: 14rpx;
+  padding: 20rpx 24rpx;
+}
+
+.picker-label {
+  font-size: 26rpx;
+  color: #51636f;
+  width: 160rpx;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #1c2b36;
+  flex: 1;
+  font-weight: 600;
+}
+
+.picker-arrow {
+  font-size: 26rpx;
+  color: #0e6b8a;
+}
+
+.btn {
+  margin-top: 20rpx;
+  background: #0e6b8a;
+  color: #ffffff;
+  font-size: 28rpx;
+}
+
+.result {
+  margin-top: 20rpx;
+  background: #e6f2f7;
+  border: 2rpx solid #cfe5ee;
+  border-radius: 14rpx;
+  padding: 24rpx;
+}
+
+.result-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #0e6b8a;
+}
+
+.result-text {
+  display: block;
+  font-size: 26rpx;
+  color: #1c2b36;
+  line-height: 1.6;
+  margin-top: 12rpx;
+}
+
+.gear-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 2rpx solid #f0f4f6;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid #b8c8d2;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.checked {
+  background: #0e6b8a;
+  border-color: #0e6b8a;
+}
+
+.gear-text {
+  font-size: 26rpx;
+  color: #1c2b36;
+  margin-left: 18rpx;
+  line-height: 1.5;
+}
+
+.done {
+  color: #94a4ae;
+  text-decoration: line-through;
+}
+
+.safe-item {
+  display: flex;
+  padding: 14rpx 0;
+  border-bottom: 2rpx solid #f0f4f6;
+}
+
+.safe-num {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: #e6f2f7;
+  color: #0e6b8a;
+  font-size: 24rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.safe-text {
+  flex: 1;
+  font-size: 25rpx;
+  color: #1c2b36;
+  line-height: 1.6;
+  margin-left: 16rpx;
+}
+
+.src-item {
+  display: flex;
+  flex-direction: column;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #f0f4f6;
+}
+
+.src-kind {
+  align-self: flex-start;
+  font-size: 22rpx;
+  color: #8a5b18;
+  background: #fff2dc;
+  border-radius: 16rpx;
+  padding: 2rpx 14rpx;
+}
+
+.src-text {
+  font-size: 25rpx;
+  color: #1c2b36;
+  line-height: 1.6;
+  margin-top: 8rpx;
+}
+
+.src-copy {
+  font-size: 22rpx;
+  color: #0e6b8a;
+  margin-top: 6rpx;
+}

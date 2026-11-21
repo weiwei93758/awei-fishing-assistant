@@ -1,0 +1,57 @@
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">阿威专属海钓</text>
+    <text class="hero-sub">鲅鱼圈 · 望海寨 · 广航一带</text>
+    <text class="hero-note">本人专用 · 本地数据 · 无需登录</text>
+  </view>
+
+  <view class="card">
+    <text class="section-title">航海工具</text>
+    <text class="note">微信内打开外部网页有限制，点卡片复制官方网址，再粘贴到浏览器打开。</text>
+    <view class="link-list">
+      <view class="link-item" wx:for="{{links}}" wx:key="id" data-id="{{item.id}}" bindtap="copyLink">
+        <view class="link-icon" style="background:{{item.color}}">{{item.icon}}</view>
+        <view class="link-body">
+          <text class="link-name">{{item.name}}</text>
+          <text class="link-desc">{{item.desc}}</text>
+          <text class="link-url">{{item.label}}</text>
+        </view>
+        <text class="link-arrow">复制 ›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">今日提示</text>
+    <view class="tip-row">
+      <text class="tip-label">季节</text>
+      <text class="tip-value">11 月下旬 · 深秋</text>
+    </view>
+    <view class="tip-row">
+      <text class="tip-label">主推</text>
+      <text class="tip-value">礁石黑鲪、岸钓海鲶鱼</text>
+    </view>
+    <view class="tip-row">
+      <text class="tip-label">已过</text>
+      <text class="tip-value">鲅鱼主汛（7—10 月）</text>
+    </view>
+    <view class="warnbox" style="margin-top:16rpx">此为按鱼种窗口期的季节推算，不是实时鱼情。风浪、水温会改变鱼口，出海前请看 Windy 等实时数据。</view>
+  </view>
+
+  <view class="card link-card" bindtap="goLog">
+    <text class="section-title">我的钓记 · 知识库</text>
+    <text class="note" style="margin-bottom:0">2026 年广航 5 次亲身记录与规律总结 → 点此查看</text>
+  </view>
+
+  <view class="card">
+    <text class="section-title">钓点速览</text>
+    <view class="spot-mini" wx:for="{{spots}}" wx:key="id" data-id="{{item.id}}" bindtap="goSpots">
+      <text class="spot-name">{{item.name}}</text>
+      <text class="spot-badge">{{item.badge}}</text>
+      <text class="spot-fish">{{item.fish}}</text>
+    </view>
+    <text class="note" style="margin-top:12rpx;margin-bottom:0">点任意钓点进入“钓点”页查看完整档案。</text>
+  </view>
+
+  <view class="footer">数据更新：2026-11-21 · 钓友经验与公开资料整理</view>
+</view>

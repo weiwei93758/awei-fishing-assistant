@@ -1,0 +1,48 @@
+.spot-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12rpx;
+}
+
+.spot-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1c2b36;
+}
+
+.spot-badge {
+  font-size: 22rpx;
+  color: #0e6b8a;
+  background: #e6f2f7;
+  border-radius: 20rpx;
+  padding: 2rpx 14rpx;
+  margin-left: 16rpx;
+}
+
+.kv {
+  display: flex;
+  padding: 12rpx 0;
+  border-bottom: 2rpx solid #f2f5f7;
+}
+
+.k {
+  width: 100rpx;
+  font-size: 25rpx;
+  color: #0e6b8a;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.v {
+  flex: 1;
+  font-size: 25rpx;
+  color: #1c2b36;
+  line-height: 1.6;
+}
+
+.real-img {
+  width: 100%;
+  border-radius: 14rpx;
+  margin: 12rpx 0 20rpx;
+}

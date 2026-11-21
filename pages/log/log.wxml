@@ -1,0 +1,49 @@
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">广航海钓知识库</text>
+    <text class="hero-sub">2026 年本人 5 次亲身记录</text>
+    <text class="hero-note">事实与推断分开标注 · 为以后出钓提供依据</text>
+  </view>
+
+  <view class="card">
+    <text class="section-title">出钓记录 · 时间线</text>
+    <text class="note">按日期从早到晚。潮汐窗口为经验划分，非精确潮时；标“未记录”的表示当时没记住，未作补造。</text>
+
+    <view class="log-item" wx:for="{{logs}}" wx:key="id">
+      <view class="log-head">
+        <text class="log-date">{{item.date}}</text>
+        <text class="result result-{{item.resultKind}}">{{item.result}}</text>
+      </view>
+      <view class="meta-row">
+        <text class="meta">农历 {{item.lunar}}</text>
+        <text class="tide tide-{{item.tideKind}}">{{item.tide}}</text>
+      </view>
+      <view class="info"><text class="ik">时间</text><text class="iv">{{item.time}}</text></view>
+      <view class="info"><text class="ik">天气</text><text class="iv">{{item.weather}}</text></view>
+      <view class="info"><text class="ik">水况</text><text class="iv">{{item.water}}</text></view>
+      <view class="info"><text class="ik">钓法</text><text class="iv">{{item.gear}}</text></view>
+      <view class="info"><text class="ik">渔获</text><text class="iv">{{item.catchText}}</text></view>
+      <text class="log-note">{{item.note}}</text>
+      <view class="tag-row">
+        <text class="log-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="tag">{{tag}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">规律总结</text>
+    <text class="note">以下基于 5 次样本归纳，含钓法有效性，样本量小，属经验假设，不是定论。</text>
+    <view class="insight" wx:for="{{insights}}" wx:key="title">
+      <text class="insight-title">{{item.title}}</text>
+      <text class="insight-body">{{item.body}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">数据边界</text>
+    <view class="boundary" wx:for="{{boundaries}}" wx:key="idx">
+      <text class="b-num">{{index + 1}}</text>
+      <text class="b-text">{{item}}</text>
+    </view>
+  </view>
+</view>

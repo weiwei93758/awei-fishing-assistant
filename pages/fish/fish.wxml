@@ -1,0 +1,30 @@
+<view class="page">
+  <view class="card">
+    <text class="section-title">鱼种与季节</text>
+    <text class="note">红块＝通常较好，浅橙＝可尝试，灰＝一般。窗口期为经验，具体鱼情随水温、风向变化。</text>
+
+    <view class="fish-item" wx:for="{{fishes}}" wx:key="id">
+      <view class="fish-head">
+        <text class="fish-name">{{item.name}}</text>
+        <text class="fish-level" wx:if="{{item.level}}">{{item.level}}</text>
+      </view>
+      <text class="fish-period">钓期：{{item.period}}</text>
+      <view class="month-row">
+        <view class="month {{cell.cls}}" wx:for="{{item.monthCells}}" wx:for-item="cell" wx:key="idx">{{cell.n}}</view>
+      </view>
+      <text class="fish-line">钓法：{{item.method}}</text>
+      <text class="fish-line">常用饵：{{item.bait}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">海况截图 · 数值怎么读</text>
+    <image class="real-img" src="/images/sea-forecast.jpg" mode="widthFix"></image>
+    <view class="warnbox" style="margin-bottom:16rpx">这是 11 月 10 日的历史截图，数据源 ECMWF WAM（欧洲中期天气预报中心波浪模型），属模型预报、非实测，不代表当前海况。</view>
+    <view class="kv" wx:for="{{seaGuide}}" wx:key="label">
+      <text class="k2">{{item.label}}</text>
+      <text class="v2">{{item.meaning}}；{{item.tip}}</text>
+    </view>
+    <view class="warnbox" style="margin-top:16rpx">判断口诀：看风浪两项即可。风速 3—4 节、浪高 0.3—0.5 米属轻量级；风速 5 级以上或浪高明显抬升，岸钓收竿、停止登礁与出海。</view>
+  </view>
+</view>

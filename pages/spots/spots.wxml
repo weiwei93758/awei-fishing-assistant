@@ -1,0 +1,26 @@
+<view class="page">
+  <text class="note">地貌来自政府公示与公开报道；鱼情为钓友经验，非官方统计、非实时鱼获保证。</text>
+
+  <view class="card spot-card" wx:for="{{spots}}" wx:key="id">
+    <view class="spot-head">
+      <text class="spot-title">{{item.name}}</text>
+      <text class="spot-badge">{{item.badge}}</text>
+    </view>
+    <view class="kv"><text class="k">位置</text><text class="v">{{item.place}}</text></view>
+    <view class="kv"><text class="k">地貌</text><text class="v">{{item.landform}}</text></view>
+    <view class="kv"><text class="k">目标鱼</text><text class="v">{{item.fish}}</text></view>
+    <view class="kv"><text class="k">钓法</text><text class="v">{{item.method}}</text></view>
+    <view class="warnbox">{{item.warning}}</view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">卫星图 · 地貌怎么认</text>
+    <image class="real-img" src="/images/satellite-terrain.jpg" mode="widthFix"></image>
+    <view class="warnbox" style="margin-bottom:16rpx">高德卫星底图截图，未显示地名标签，无法仅凭它 100% 确认就是广航防波堤。以下为可见地貌的客观描述。</view>
+    <view class="kv"><text class="k">人工岸线</text><text class="v">近方形人工围垦／港池区域，三面环水，右侧连陆，堤岸轮廓笔直。</text></view>
+    <view class="kv"><text class="k">凸出结构</text><text class="v">上缘与左侧有数条伸入水中的狭长堤状结构，符合防波堤／码头形态。</text></view>
+    <view class="kv"><text class="k">方格地块</text><text class="v">右下岸上成片规则方格，疑似养殖池或盐田，属管控区域，不要进入。</text></view>
+    <view class="kv"><text class="k">星标位置</text><text class="v">落在右侧连陆岸上，可理解为收藏点；堤头外侧水深变化大，夜间勿单独前往。</text></view>
+    <text class="note" style="margin-top:16rpx;margin-bottom:0">卫星图只用于认识地形，不提供水深、潮汐、通航与开放信息。堤坝作业前先确认是否允许进入。</text>
+  </view>
+</view>
