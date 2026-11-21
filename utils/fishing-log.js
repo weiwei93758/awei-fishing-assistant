@@ -19,6 +19,7 @@ const logs = [
     gear: gearMain,
     result: '爆箱',
     resultKind: 'great',
+    catchCount: null,
     catchText: '鲅鱼、鲈鱼',
     note: '鲅鱼和鲈鱼双双爆箱，是 5 次里渔获最突出的一次。',
     tags: ['鲅鱼', '鲈鱼', '爆箱']
@@ -35,6 +36,7 @@ const logs = [
     gear: gearMain,
     result: '鲈鱼 30 多条；见他人钓获鲅鱼',
     resultKind: 'good',
+    catchCount: 30,
     catchText: '鲈鱼为主，他人有鲅鱼',
     note: '早 5 点出现鲅鱼炸水；自己主获鲈鱼，同场有人钓到鲅鱼。',
     tags: ['鲅鱼炸水', '鲈鱼', '清晨']
@@ -51,6 +53,7 @@ const logs = [
     gear: gearMain,
     result: '鲈鱼 17 条',
     resultKind: 'good',
+    catchCount: 17,
     catchText: '鲈鱼 17 条，个体约 20 厘米',
     note: '农历八月十八大潮日，钓获 17 条鲈鱼，个体偏小、约 20 厘米。',
     tags: ['大潮', '鲈鱼', '个体偏小']
@@ -67,6 +70,7 @@ const logs = [
     gear: gearMain,
     result: '鲈鱼 6 条；赤潮后停钓',
     resultKind: 'normal',
+    catchCount: 6,
     catchText: '鲈鱼 6 条',
     note: '中午 11 点出现赤潮，随即停止作钓。虽是大潮日，渔获明显少于夏秋。',
     tags: ['大潮', '鲈鱼', '赤潮', '停钓']
@@ -83,6 +87,7 @@ const logs = [
     gear: gearMain,
     result: '空军（无渔获）',
     resultKind: 'bad',
+    catchCount: 0,
     catchText: '无',
     note: '本人空军；同场多数人爆箱。天气恶劣是背景，但他人有获，说明不能单归因天气，钓位／钓法／时机也需复盘。',
     tags: ['空军', '东北风5级', '水浑', '小潮']

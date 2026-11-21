@@ -1,0 +1,106 @@
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">往年今日渔获</text>
+    <text class="hero-sub">选个日期，看看同一天往年钓了多少</text>
+  </view>
+
+  <view class="card">
+    <text class="section-title">查询日期</text>
+    <view class="input-row">
+      <input class="date-input" type="text" value="{{input}}" bindinput="onInput" placeholder="08-17 或 2026-08-17" confirm-type="search" bindconfirm="onQueryTap" />
+      <text class="clear-btn" bindtap="clearInput" wx:if="{{input}}">清除</text>
+    </view>
+    <text class="hint">支持 08-17、8月17日、2026-08-17、今天；忽略年份时按同一天跨年查询。</text>
+    <view class="quick-wrap">
+      <text class="quick-chip today-chip" bindtap="useToday">今天 {{todayKey}}</text>
+      <text class="quick-chip" wx:for="{{quickKeys}}" wx:key="*this" data-key="{{item}}" bindtap="useQuick">{{item}}</text>
+    </view>
+    <view class="query-btn" bindtap="onQueryTap">查询渔获</view>
+  </view>
+
+  <view class="card err-card" wx:if="{{error}}">
+    <text class="err-icon">!</text>
+    <view class="err-body">
+      <text class="err-title">无法查询</text>
+      <text class="err-text">{{error}}</text>
+    </view>
+  </view>
+
+  <block wx:if="{{result && !error}}">
+    <view class="card" wx:if="{{result.items.length > 0}}">
+      <text class="section-title">{{queryLabel}} · 同日汇总</text>
+      <view class="stat-grid">
+        <view class="stat-item">
+          <text class="stat-num">{{result.knownRecords + result.unknownRecords}}</text>
+          <text class="stat-label">记录条数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-num">{{result.totalKnown}}</text>
+          <text class="stat-label">可计数总量(条)</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-num">{{result.years}}</text>
+          <text class="stat-label">涉及年份</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-num">{{result.avg == null ? '—' : result.avg}}</text>
+          <text class="stat-label">同日均值(条)</text>
+        </view>
+      </view>
+      <view class="warnbox" wx:if="{{result.unknownRecords > 0}}">其中 {{result.unknownRecords}} 条为“爆箱”等未计数量，未计入总量，避免低估或编造。</view>
+    </view>
+
+    <view class="card" wx:if="{{result.byYear.length > 0}}">
+      <text class="section-title">按年份汇总</text>
+      <view class="year-item" wx:for="{{years}}" wx:key="year">
+        <view class="year-head">
+          <text class="year-name">{{item.year}} 年</text>
+          <text class="year-val">{{item.unknown > 0 ? '数量未计' : (item.total + ' 条')}}</text>
+        </view>
+        <view class="bar-track"><view class="bar-fill" style="width:{{item.width}}%"></view></view>
+        <text class="year-detail">{{item.text}}</text>
+      </view>
+    </view>
+
+    <view class="card compare-card">
+      <text class="section-title">与当前日期对比</text>
+      <view class="compare-row">
+        <view class="compare-box">
+          <text class="compare-k">今天 {{result.today.key}}</text>
+          <text class="compare-v">{{result.today.hasData ? (result.today.count + ' 条') : '暂无记录'}}</text>
+        </view>
+        <view class="compare-box">
+          <text class="compare-k">同日均值</text>
+          <text class="compare-v">{{result.avg == null ? '—' : (result.avg + ' 条')}}</text>
+        </view>
+      </view>
+      <text class="compare-note">{{compareText}}</text>
+    </view>
+
+    <view class="card">
+      <text class="section-title">当日记录明细</text>
+      <view class="log-item" wx:for="{{result.items}}" wx:key="id">
+        <view class="log-head">
+          <text class="log-date">{{item.year}}-{{item.month < 10 ? '0' : ''}}{{item.month}}-{{item.day < 10 ? '0' : ''}}{{item.day}}</text>
+          <text class="log-source">{{item.source}}</text>
+        </view>
+        <text class="log-main">{{item.result || item.text}}</text>
+        <text class="log-sub">{{item.spot}} ｜ {{item.tide || '潮汐未记录'}}</text>
+        <text class="log-note" wx:if="{{item.note}}">{{item.note}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="card empty-card" wx:if="{{result && result.items.length === 0 && !error}}">
+    <text class="empty-emoji">◌</text>
+    <text class="empty-title">{{queryLabel}} 暂无历史记录</text>
+    <text class="empty-text">还没有这一天的渔获数据。下次出钓后点“记一笔”存下来，以后就能查了。</text>
+    <view class="empty-btn" bindtap="goRecord">去记一笔</view>
+  </view>
+
+  <view class="card" wx:if="{{!hasQueried}}">
+    <text class="note" style="margin-bottom:0">数据说明：历史同日来自 5 次亲身钓记与本机“记一笔”记录；“爆箱”等无具体数量的只标注、不估算。数量统计为参考，不代表科学规律。</text>
+  </view>
+
+  <view class="footer">数据更新 2026-11-22 · 本人专用</view>
+</view>

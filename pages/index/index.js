@@ -35,5 +35,17 @@ Page({
 
   goRecord() {
     wx.switchTab({ url: '/pages/record/record' });
+  },
+
+  goAnniversary() {
+    wx.navigateTo({ url: '/pages/anniversary/anniversary' });
+  },
+
+  goWords() {
+    wx.navigateTo({ url: '/pages/words/words' });
+  },
+
+  goTools() {
+    wx.navigateTo({ url: '/pages/tools/tools' });
   }
 });

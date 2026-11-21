@@ -1,0 +1,54 @@
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">海钓乐趣词语</text>
+    <text class="hero-sub">钓友黑话与海钓术语 · {{total}} 条</text>
+  </view>
+
+  <view class="card search-card">
+    <view class="search-row">
+      <text class="search-icon">⌕</text>
+      <input class="search-input" type="text" value="{{keyword}}" bindinput="onInput" placeholder="搜词语，如 空军、爆箱、阿波" />
+      <text class="search-clear" bindtap="clearSearch" wx:if="{{keyword}}">✕</text>
+    </view>
+  </view>
+
+  <block wx:if="{{searching}}">
+    <view class="card">
+      <text class="section-title">搜索“{{keyword}}” · {{searchResults.length}} 条</text>
+      <view class="word-item" wx:for="{{searchResults}}" wx:key="w">
+        <view class="word-head">
+          <text class="word-name">{{item.w}}</text>
+          <text class="word-pinyin">{{item.p}}</text>
+          <text class="word-tag" style="background:{{item.color}}">{{item.group}}</text>
+        </view>
+        <text class="word-mean">{{item.mean}}</text>
+      </view>
+      <view class="no-result" wx:if="{{searchResults.length === 0}}">
+        <text class="no-result-text">没有找到相关词语，换个词试试。</text>
+      </view>
+    </view>
+  </block>
+
+  <block wx:if="{{!searching}}">
+    <scroll-view class="tabs" scroll-x>
+      <view class="tab {{activeId === item.id ? 'tab-active' : ''}}" wx:for="{{groups}}" wx:key="id" data-id="{{item.id}}" bindtap="switchGroup">{{item.name}}</view>
+    </scroll-view>
+
+    <view class="card">
+      <text class="section-title">{{current.name}} · {{current.words.length}} 条</text>
+      <view class="word-item" wx:for="{{current.words}}" wx:key="w">
+        <view class="word-head">
+          <text class="word-name">{{item.w}}</text>
+          <text class="word-pinyin">{{item.p}}</text>
+        </view>
+        <text class="word-mean">{{item.mean}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="card note-card">
+    <text class="note" style="margin-bottom:0">词语为钓友圈常用说法与本人理解，供查阅娱乐；部分说法各地含义略有差异，以当地习惯为准。</text>
+  </view>
+
+  <view class="footer">数据更新 2026-11-22 · 本人专用</view>
+</view>

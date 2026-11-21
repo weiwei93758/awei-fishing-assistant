@@ -43,9 +43,30 @@
     <text class="note" style="margin-bottom:0">下拉选潮汐、天气、钓点，拍张照存本机 → 点此开始</text>
   </view>
 
+  <view class="card">
+    <text class="section-title">快捷查询</text>
+    <view class="quick-grid">
+      <view class="quick-item" bindtap="goAnniversary">
+        <text class="quick-icon" style="background:#0e6b8a">📅</text>
+        <text class="quick-name">往年今日渔获</text>
+        <text class="quick-desc">选日期看同日历史渔获</text>
+      </view>
+      <view class="quick-item" bindtap="goWords">
+        <text class="quick-icon" style="background:#8a5b18">📖</text>
+        <text class="quick-name">海钓乐趣词语</text>
+        <text class="quick-desc">钓友黑话与术语速查</text>
+      </view>
+    </view>
+  </view>
+
   <view class="card link-card" bindtap="goLog">
     <text class="section-title">我的钓记 · 知识库</text>
     <text class="note" style="margin-bottom:0">2026 年广航 5 次亲身记录与规律总结 → 点此查看</text>
+  </view>
+
+  <view class="card link-card" bindtap="goTools">
+    <text class="section-title">工具箱</text>
+    <text class="note" style="margin-bottom:0">潮汐速查、装备清单、安全须知、资料来源 → 点此查看</text>
   </view>
 
   <view class="card">
