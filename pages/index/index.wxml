@@ -38,6 +38,11 @@
     <view class="warnbox" style="margin-top:16rpx">此为按鱼种窗口期的季节推算，不是实时鱼情。风浪、水温会改变鱼口，出海前请看 Windy 等实时数据。</view>
   </view>
 
+  <view class="card link-card" bindtap="goRecord" style="background:#e8f4f8;border-left:8rpx solid #0e6b8a">
+    <text class="section-title">＋ 记一笔（出钓记录）</text>
+    <text class="note" style="margin-bottom:0">下拉选潮汐、天气、钓点，拍张照存本机 → 点此开始</text>
+  </view>
+
   <view class="card link-card" bindtap="goLog">
     <text class="section-title">我的钓记 · 知识库</text>
     <text class="note" style="margin-bottom:0">2026 年广航 5 次亲身记录与规律总结 → 点此查看</text>

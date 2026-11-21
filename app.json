@@ -4,7 +4,8 @@
     "pages/spots/spots",
     "pages/fish/fish",
     "pages/log/log",
-    "pages/tools/tools"
+    "pages/tools/tools",
+    "pages/record/record"
   ],
   "window": {
     "navigationBarTitleText": "阿威专属海钓",
@@ -23,6 +24,7 @@
       { "pagePath": "pages/spots/spots", "text": "钓点" },
       { "pagePath": "pages/fish/fish", "text": "鱼情" },
       { "pagePath": "pages/log/log", "text": "钓记" },
+      { "pagePath": "pages/record/record", "text": "记一笔" },
       { "pagePath": "pages/tools/tools", "text": "工具" }
     ]
   },

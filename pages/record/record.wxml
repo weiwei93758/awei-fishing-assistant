@@ -1,0 +1,190 @@
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">记一笔</text>
+    <text class="hero-sub">下拉选好，拍张照，存进本机</text>
+    <text class="hero-note">每次出钓记一条，慢慢攒成自己的鱼情库</text>
+  </view>
+
+  <!-- 表单 -->
+  <view class="card">
+    <text class="section-title">新建记录</text>
+    <text class="note">除日期外都可留空；选“不确定”也行。图片与文字只存在这台手机，不上传。</text>
+
+    <!-- 日期 -->
+    <view class="field">
+      <picker mode="date" value="{{form.date}}" end="{{today}}" bindchange="onDateChange">
+        <view class="picker">
+          <text class="picker-label">日期</text>
+          <text class="picker-value">{{form.date || '请选择'}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 钓点 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.spots}}" value="{{form.spotIndex}}" data-field="spotIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">钓点</text>
+          <text class="picker-value">{{opts.spots[form.spotIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 钓点结构 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.structure}}" value="{{form.structureIndex}}" data-field="structureIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">钓点结构</text>
+          <text class="picker-value">{{opts.structure[form.structureIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 潮汐 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.tideSize}}" value="{{form.tideSizeIndex}}" data-field="tideSizeIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">潮汐大小</text>
+          <text class="picker-value">{{opts.tideSize[form.tideSizeIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+    <view class="field">
+      <picker mode="selector" range="{{opts.tidePhase}}" value="{{form.tidePhaseIndex}}" data-field="tidePhaseIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">潮汐阶段</text>
+          <text class="picker-value">{{opts.tidePhase[form.tidePhaseIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 天气 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.weather}}" value="{{form.weatherIndex}}" data-field="weatherIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">天气</text>
+          <text class="picker-value">{{opts.weather[form.weatherIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+    <view class="field">
+      <picker mode="selector" range="{{opts.windLevel}}" value="{{form.windLevelIndex}}" data-field="windLevelIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">风力</text>
+          <text class="picker-value">{{opts.windLevel[form.windLevelIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+    <view class="field">
+      <picker mode="selector" range="{{opts.windDir}}" value="{{form.windDirIndex}}" data-field="windDirIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">风向</text>
+          <text class="picker-value">{{opts.windDir[form.windDirIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 水况 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.water}}" value="{{form.waterIndex}}" data-field="waterIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">水况</text>
+          <text class="picker-value">{{opts.water[form.waterIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 钓法 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.gear}}" value="{{form.gearIndex}}" data-field="gearIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">钓法</text>
+          <text class="picker-value">{{opts.gear[form.gearIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 鱼种 -->
+    <view class="field">
+      <picker mode="selector" range="{{opts.fish}}" value="{{form.fishIndex}}" data-field="fishIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">鱼种</text>
+          <text class="picker-value">{{opts.fish[form.fishIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 渔获 -->
+    <view class="field field-col">
+      <text class="picker-label">渔获</text>
+      <input class="text-input" value="{{form.catchText}}" data-field="catchText" bindinput="onInput" placeholder="例如：鲈鱼 8 条、鲅鱼 2 条" />
+    </view>
+
+    <!-- 图片 -->
+    <view class="field field-col">
+      <text class="picker-label">图片（最多 6 张）</text>
+      <view class="img-grid">
+        <view class="img-box" wx:for="{{form.images}}" wx:key="*this">
+          <image class="img-thumb" src="{{item}}" data-idx="{{index}}" bindtap="previewImage" mode="aspectFill" />
+          <text class="img-del" data-idx="{{index}}" bindtap="removeImage">×</text>
+        </view>
+        <view class="img-add" bindtap="chooseImage" wx:if="{{form.images.length < 6}}">
+          <text class="img-add-plus">+</text>
+          <text class="img-add-text">加图</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 备注 -->
+    <view class="field field-col">
+      <text class="picker-label">备注</text>
+      <textarea class="text-area" value="{{form.note}}" data-field="note" bindinput="onInput" placeholder="钓位细节、用饵、当时情况…" maxlength="500" />
+    </view>
+
+    <button class="btn btn-save" bindtap="saveRecord">保存这条记录</button>
+    <button class="btn btn-reset" bindtap="resetForm">清空重填</button>
+  </view>
+
+  <!-- 历史记录 -->
+  <view class="card">
+    <text class="section-title">我的记录（{{records.length}}）</text>
+    <text class="note" wx:if="{{records.length === 0}}">还没有记录。上面填好第一条，点“保存这条记录”。</text>
+
+    <view class="rec" wx:for="{{records}}" wx:key="id">
+      <view class="rec-head">
+        <text class="rec-date">{{item.date}}</text>
+        <text class="rec-del" data-id="{{item.id}}" bindtap="deleteRecord">删除</text>
+      </view>
+      <view class="rec-tags">
+        <text class="rtag">{{item.spot}}</text>
+        <text class="rtag">{{item.structure}}</text>
+        <text class="rtag">{{item.tide}}</text>
+        <text class="rtag">{{item.gear}}</text>
+        <text class="rtag">{{item.fish}}</text>
+      </view>
+      <view class="rec-line"><text class="rk">天气 / 风</text><text class="rv">{{item.weather}} · {{item.wind}}</text></view>
+      <view class="rec-line"><text class="rk">水况</text><text class="rv">{{item.water}}</text></view>
+      <view class="rec-line"><text class="rk">渔获</text><text class="rv">{{item.catchText}}</text></view>
+      <view class="rec-line" wx:if="{{item.note}}"><text class="rk">备注</text><text class="rv">{{item.note}}</text></view>
+      <view class="rec-imgs" wx:if="{{item.images.length > 0}}">
+        <image class="rec-img" wx:for="{{item.images}}" wx:for-item="img" wx:for-index="iidx" wx:key="iidx" src="{{img}}" data-idx="{{iidx}}" data-urls="{{item.images}}" bindtap="previewRecordImage" mode="aspectFill" />
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">说明</text>
+    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。已有的 5 次历史钓记在“钓记”页，不受这里影响。</text>
+  </view>
+</view>

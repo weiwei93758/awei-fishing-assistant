@@ -31,5 +31,9 @@ Page({
 
   goLog() {
     wx.switchTab({ url: '/pages/log/log' });
+  },
+
+  goRecord() {
+    wx.switchTab({ url: '/pages/record/record' });
   }
 });
