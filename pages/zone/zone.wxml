@@ -2,7 +2,7 @@
 <view class="page">
   <view class="hero">
     <text class="hero-title">海域类型信息</text>
-    <text class="hero-sub">外海 · 内弯 · 养殖圈</text>
+    <text class="hero-sub">外海 · 内湾 · 养殖圈</text>
     <text class="hero-note">按地区分别保存 · 只存在这台手机</text>
   </view>
 

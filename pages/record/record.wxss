@@ -35,6 +35,10 @@
 .rec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12rpx; }
 .rec-date { font-size: 28rpx; font-weight: 700; color: #14333f; }
 .rec-del { font-size: 22rpx; color: #c9522f; padding: 6rpx 14rpx; border: 1rpx solid #e8b9ad; border-radius: 8rpx; }
+.rec-region { font-size: 20rpx; color: #7d8f99; margin-left: 12rpx; }
+.rec-actions { display: flex; align-items: center; margin-bottom: 12rpx; }
+.rec-edit, .rec-transfer { font-size: 22rpx; color: #0e6b8a; padding: 6rpx 14rpx; border: 1rpx solid #b9d8e2; border-radius: 8rpx; margin-right: 12rpx; }
+.rec-actions .rec-del { margin-left: auto; }
 .rec-tags { display: flex; flex-wrap: wrap; margin-bottom: 12rpx; }
 .rtag { font-size: 20rpx; color: #0e6b8a; background: #e8f4f8; border-radius: 8rpx; padding: 6rpx 12rpx; margin: 0 8rpx 8rpx 0; }
 .rec-line { display: flex; font-size: 24rpx; margin-bottom: 8rpx; }

@@ -63,7 +63,7 @@
       <view class="quick-item" bindtap="goZones">
         <text class="quick-icon" style="background:#4a6fa5">🌊</text>
         <text class="quick-name">海域类型</text>
-        <text class="quick-desc">外海 / 内弯 / 养殖圈</text>
+        <text class="quick-desc">外海 / 内湾 / 养殖圈</text>
       </view>
     </view>
   </view>

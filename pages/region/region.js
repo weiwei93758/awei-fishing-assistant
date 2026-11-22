@@ -1,6 +1,7 @@
 // pages/region/region.js — 自定义地区与定位参数管理
 const M = require('../../utils/region-mixin.js');
 const R = require('../../utils/regions.js');
+const S = require('../../utils/record-store.js');
 
 const ACCURACY = ['精确（已实地核对）', '约略（地图估算）', '待核实'];
 
@@ -37,7 +38,8 @@ Page(Object.assign({}, M.methods, {
     newForm: { name: '', baseIndex: 0 },
     customList: [],
     isCustom: false,
-    currentBaseName: ''
+    currentBaseName: '',
+    backupInfo: null
   }),
 
   onShow: function() {
@@ -53,6 +55,11 @@ Page(Object.assign({}, M.methods, {
     var r = R.getCurrent();
     var p = r.params || {};
     var base = R.find(r.baseId) || r;
+    var bi = S.backupInfo();
+    if (bi) {
+      var d = new Date(bi.at);
+      bi.text = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
     this.setData({
       paramsForm: {
         lat: p.lat || '',
@@ -64,7 +71,8 @@ Page(Object.assign({}, M.methods, {
       },
       isCustom: !!r.custom,
       currentBaseName: base.name,
-      customList: R.getCustomRegions()
+      customList: R.getCustomRegions(),
+      backupInfo: bi
     });
   },
 
@@ -167,17 +175,71 @@ Page(Object.assign({}, M.methods, {
       return;
     }
     var id = this.data.regionId;
+    var baseId = R.DEFAULT_ID;
+    var list = R.getCustomRegions();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === id) { baseId = list[i].baseRegion || R.DEFAULT_ID; break; }
+    }
+    var base = R.find(baseId);
+    var baseName = base ? base.name : '广航';
     wx.showModal({
       title: '删除自定义地区',
-      content: '删除后该地区不再出现在下拉菜单。已保存的钓记仍在本机，但暂时无法按该地区查看。确定删除吗？',
+      content: '删除前会先备份全部钓记，再把该地区的钓记转移到「' + baseName + '」。备份失败会取消删除。确定继续吗？',
       confirmColor: '#c9522f',
       success: function(res) {
         if (!res.confirm) return;
-        R.removeCustom(id);
+        if (!S.backup()) {
+          wx.showToast({ title: '备份失败，已取消删除', icon: 'none' });
+          return;
+        }
+        var moved = S.relabel(id, baseId, baseName);
+        if (moved < 0) {
+          wx.showToast({ title: '记录迁移失败，已取消删除', icon: 'none' });
+          return;
+        }
+        if (!R.removeCustom(id)) {
+          wx.showToast({ title: '删除失败，记录已保留', icon: 'none' });
+          return;
+        }
         R.setCurrent(R.DEFAULT_ID);
         that.syncRegion();
         that.loadAll();
-        wx.showToast({ title: '已删除', icon: 'success' });
+        wx.showToast({ title: '已删除，' + moved + ' 条记录转移到' + baseName, icon: 'none' });
+      }
+    });
+  },
+
+  backupNow: function() {
+    var that = this;
+    if (!S.backup()) {
+      wx.showToast({ title: '备份失败，请重试', icon: 'none' });
+      return;
+    }
+    that.loadAll();
+    wx.showToast({ title: '已备份全部钓记', icon: 'success' });
+  },
+
+  restoreBackup: function() {
+    var that = this;
+    var info = S.backupInfo();
+    if (!info) {
+      wx.showToast({ title: '没有可恢复的备份', icon: 'none' });
+      return;
+    }
+    var when = new Date(info.at);
+    var stamp = when.getFullYear() + '-' + String(when.getMonth() + 1).padStart(2, '0') + '-' + String(when.getDate()).padStart(2, '0');
+    wx.showModal({
+      title: '恢复备份',
+      content: '将用 ' + stamp + ' 的备份（' + info.count + ' 条）覆盖当前全部钓记，当前的新修改会丢失。确定恢复吗？',
+      confirmColor: '#c9522f',
+      success: function(res) {
+        if (!res.confirm) return;
+        if (!S.restoreBackup()) {
+          wx.showToast({ title: '恢复失败', icon: 'none' });
+          return;
+        }
+        that.loadAll();
+        wx.showToast({ title: '已恢复 ' + info.count + ' 条记录', icon: 'success' });
       }
     });
   }

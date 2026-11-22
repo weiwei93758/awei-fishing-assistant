@@ -52,7 +52,7 @@ var methods = {
     wx.navigateTo({ url: '/pages/region/region' });
   },
 
-  // 海域类型信息（外海 / 内弯 / 养殖圈）
+  // 海域类型信息（外海 / 内湾 / 养殖圈）
   goZones: function() {
     wx.navigateTo({ url: '/pages/zone/zone' });
   }

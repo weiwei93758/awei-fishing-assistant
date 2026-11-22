@@ -10,8 +10,8 @@
 
   <!-- 表单 -->
   <view class="card">
-    <text class="section-title">新建记录</text>
-    <text class="note">除日期外都可留空；选“不确定”也行。图片与文字只存在这台手机，不上传。</text>
+    <text class="section-title">{{isEditing ? '编辑记录' : '新建记录'}}</text>
+    <text class="note">{{isEditing ? '正在修改一条已有记录，改完点“更新这条记录”。要换地区请用记录下方的“转移地区”。' : '除日期外都可留空；选“不确定”也行。图片与文字只存在这台手机，不上传。'}}</text>
 
     <!-- 日期 -->
     <view class="field">
@@ -166,8 +166,9 @@
       <textarea class="text-area" value="{{form.note}}" data-field="note" bindinput="onInput" placeholder="钓位细节、用饵、当时情况…" maxlength="500" />
     </view>
 
-    <button class="btn btn-save" bindtap="saveRecord">保存这条记录</button>
-    <button class="btn btn-reset" bindtap="resetForm">清空重填</button>
+    <button class="btn btn-save" bindtap="saveRecord">{{isEditing ? '更新这条记录' : '保存这条记录'}}</button>
+    <button class="btn btn-reset" wx:if="{{isEditing}}" bindtap="cancelEdit">取消编辑</button>
+    <button class="btn btn-reset" wx:else bindtap="resetForm">清空重填</button>
   </view>
 
   <!-- 历史记录 -->
@@ -178,6 +179,13 @@
     <view class="rec" wx:for="{{records}}" wx:key="id">
       <view class="rec-head">
         <text class="rec-date">{{item.date}}</text>
+        <text class="rec-region" wx:if="{{item.regionName}}">{{item.regionName}}</text>
+      </view>
+      <view class="rec-actions">
+        <text class="rec-edit" data-id="{{item.id}}" bindtap="editRecord">编辑</text>
+        <picker mode="selector" range="{{regionNames}}" data-id="{{item.id}}" bindchange="onTransferPick">
+          <text class="rec-transfer">转移地区 ▾</text>
+        </picker>
         <text class="rec-del" data-id="{{item.id}}" bindtap="deleteRecord">删除</text>
       </view>
       <view class="rec-tags">
@@ -200,6 +208,6 @@
 
   <view class="card">
     <text class="section-title">说明</text>
-    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。每条记录会带上当前地区与海域类型（外海 / 内弯 / 养殖圈可在本机修改），切换地区只改变查看范围，不会删除其他地区的记录；历史钓记在“钓记”页按地区展示。</text>
+    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。每条记录会带上当前地区与海域类型（外海 / 内湾 / 养殖圈可在本机修改）。可用“编辑”修改内容、“转移地区”换到别的地区；切换地区只改变查看范围，不会删除记录。删除记录不可恢复，重要数据请先在「自定义定位」页备份。</text>
   </view>
 </view>

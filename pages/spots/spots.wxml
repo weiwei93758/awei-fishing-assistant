@@ -13,7 +13,7 @@
       <text class="section-title" style="margin-bottom:0">海域类型 · {{regionName}}</text>
       <text class="zone-edit" bindtap="goZones">编辑 ›</text>
     </view>
-    <text class="note" style="margin-top:12rpx">外海 / 内弯 / 养殖圈三类信息按地区分别保存{{hasZoneCustom ? '，当前地区已有自定义内容' : '，当前为默认描述'}}。</text>
+    <text class="note" style="margin-top:12rpx">外海 / 内湾 / 养殖圈三类信息按地区分别保存{{hasZoneCustom ? '，当前地区已有自定义内容' : '，当前为默认描述'}}。</text>
     <view class="zone-mini" wx:for="{{zones}}" wx:key="id">
       <text class="zone-mini-name">{{item.name}}</text>
       <text class="zone-mini-desc">{{item.desc}}</text>

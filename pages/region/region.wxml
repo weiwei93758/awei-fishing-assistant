@@ -89,7 +89,16 @@
   </view>
 
   <view class="card">
+    <text class="section-title">钓记备份与恢复</text>
+    <text class="note">删除自定义地区时会自动备份。也可以手动备份，或从最近一次备份恢复；恢复会覆盖当前全部钓记，请谨慎。备份只存在这台手机。</text>
+    <text class="note" wx:if="{{backupInfo}}">最近备份：{{backupInfo.text}} · {{backupInfo.count}} 条记录</text>
+    <text class="note" wx:else>还没有备份。</text>
+    <button class="btn btn-save" bindtap="backupNow">立即备份全部钓记</button>
+    <button class="btn btn-danger" wx:if="{{backupInfo}}" bindtap="restoreBackup">从备份恢复（覆盖当前）</button>
+  </view>
+
+  <view class="card">
     <text class="section-title">说明</text>
-    <text class="note" style="margin-bottom:0">切换地区只改变查看范围，不会删除钓记。内置地区不可删除；自定义地区删除后，其记录仍保留在本机，重新建同名地区也不会自动关联旧记录，请谨慎操作。</text>
+    <text class="note" style="margin-bottom:0">切换地区只改变查看范围，不会删除钓记。内置地区不可删除；删除自定义地区前会先备份，并把该地区记录转移到它的资料模板地区。备份恢复会覆盖当前记录，操作前请确认。</text>
   </view>
 </view>

@@ -1,4 +1,4 @@
-// pages/zone/zone.js — 外海 / 内弯 / 养殖圈 信息的录入与修改
+// pages/zone/zone.js — 外海 / 内湾 / 养殖圈 信息的录入与修改
 const M = require('../../utils/region-mixin.js');
 const Z = require('../../utils/zone-info.js');
 
