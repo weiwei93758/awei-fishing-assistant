@@ -3,8 +3,8 @@
   <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
 
   <view class="card">
-    <text class="section-title">潮汐窗口速查</text>
-    <text class="note">经验口诀：农历初一至初四、十六至十八通常大潮，落差大、鱼群靠岸机会多。本工具只做规律提示，不给具体潮时。</text>
+    <text class="section-title">潮汐经验窗口（非精确潮时）</text>
+    <text class="note">经验口诀：农历初一至初四、十六至十八通常大潮，落差大、鱼群靠岸机会多。这里只做经验提示，不给具体潮时、潮高；实际以潮汐 App 或官方预报为准。</text>
     <picker mode="selector" range="{{dayLabels}}" value="{{dayIndex}}" bindchange="onDayChange">
       <view class="picker">
         <text class="picker-label">农历日期</text>
@@ -16,8 +16,30 @@
     <view class="result" wx:if="{{advice}}">
       <text class="result-title">{{advice.title}}</text>
       <text class="result-text">{{advice.text}}</text>
-      <text class="warnbox" style="display:block;margin-top:14rpx">安全提醒：涨潮前 1 小时撤离滩涂；风力 5 级及以上不要出海或登礁。精确潮时请用潮汐 App 定位{{region.tideLocation}}查询。</text>
+      <text class="warnbox" style="display:block;margin-top:14rpx">安全提醒：涨潮前 1 小时撤离滩涂；风力 5 级及以上不要出海或登礁。精确潮时请用下方链接在潮汐 App 中查询。</text>
     </view>
+  </view>
+
+  <view class="card">
+    <text class="section-title">精确潮时查询（复制链接到浏览器）</text>
+    <text class="note">小程序不联网、不内置潮汐数据。下面的链接用你在「定位设置」里填的坐标生成，复制后到手机浏览器打开即可看实时潮汐、风浪。</text>
+    <view class="tide-loc">
+      <text class="tide-loc-k">当前定位点</text>
+      <text class="tide-loc-v">{{tideLocation}}</text>
+    </view>
+    <view class="tide-loc" wx:if="{{tide.hasCoord}}">
+      <text class="tide-loc-k">坐标</text>
+      <text class="tide-loc-v">{{tide.coord}}</text>
+    </view>
+    <text class="note" wx:if="{{!tide.hasCoord}}" style="color:#c9522f">当前地区还没填经纬度，下面只有通用入口。要到具体坐标，请先在「定位设置」里填写。</text>
+    <view class="tide-link" wx:for="{{tide.links}}" wx:key="id" data-id="{{item.id}}" bindtap="copyTideLink">
+      <view class="tide-link-main">
+        <text class="tide-link-name">{{item.name}}</text>
+        <text class="tide-link-desc">{{item.desc}}</text>
+      </view>
+      <text class="tide-link-copy">复制</text>
+    </view>
+    <button class="btn btn-ghost" bindtap="goRegionSettings">去设置定位参数</button>
   </view>
 
   <view class="card">

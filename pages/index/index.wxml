@@ -65,6 +65,11 @@
         <text class="quick-name">海域类型</text>
         <text class="quick-desc">外海 / 内湾 / 养殖圈</text>
       </view>
+      <view class="quick-item" bindtap="goData">
+        <text class="quick-icon" style="background:#7a5aa8">💾</text>
+        <text class="quick-name">数据管理</text>
+        <text class="quick-desc">导出备份 / 导入恢复</text>
+      </view>
     </view>
   </view>
 

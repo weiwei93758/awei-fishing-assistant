@@ -1,0 +1,13 @@
+.page { padding: 24rpx; background: #f4f8fb; min-height: 100vh; }
+.hero { background: linear-gradient(135deg, #0e6b8a, #2e7d6b); border-radius: 20rpx; padding: 32rpx 28rpx; margin-bottom: 24rpx; }
+.hero-title { display: block; color: #fff; font-size: 40rpx; font-weight: 700; }
+.hero-sub { display: block; color: #d6f0f7; font-size: 26rpx; margin-top: 10rpx; }
+.hero-note { display: block; color: #bfe4ee; font-size: 22rpx; margin-top: 8rpx; }
+.card { background: #fff; border-radius: 18rpx; padding: 28rpx 24rpx; margin-bottom: 24rpx; box-shadow: 0 2rpx 12rpx rgba(14,107,138,0.06); }
+.section-title { display: block; font-size: 30rpx; font-weight: 700; color: #14333f; margin-bottom: 14rpx; }
+.note { display: block; font-size: 22rpx; color: #6b7a84; line-height: 1.6; margin-bottom: 18rpx; }
+.row { display: flex; justify-content: space-between; padding: 14rpx 0; border-bottom: 2rpx solid #f0f4f6; }
+.row-k { font-size: 25rpx; color: #52707d; }
+.row-v { font-size: 25rpx; color: #14333f; font-weight: 600; }
+.btn { border-radius: 12rpx; font-size: 28rpx; margin-top: 8rpx; }
+.btn-save { background: #0e6b8a; color: #fff; }

@@ -173,11 +173,52 @@ Page(Object.assign({}, M.methods, {
       sizeType: ['compressed'],
       success: function(res) {
         var paths = res.tempFiles.map(function(f) { return f.tempFilePath; });
-        var form = that.data.form;
-        form.images = form.images.concat(paths);
-        that.setData({ form: form });
+        that.compressBatch(paths, function(result) {
+          var form = that.data.form;
+          form.images = form.images.concat(result);
+          that.setData({ form: form });
+        });
       }
     });
+  },
+
+  // 长边压到 ≤1280px、质量 0.7，压缩失败则保留原图，避免存不下
+  compressBatch: function(paths, done) {
+    var out = [];
+    var that = this;
+    var i = 0;
+    function next() {
+      if (i >= paths.length) { done(out); return; }
+      var src = paths[i++];
+      wx.getImageInfo({
+        src: src,
+        success: function(info) {
+          var long = Math.max(info.width || 0, info.height || 0);
+          var opts = { src: src, quality: 70 };
+          if (long > 1280) {
+            var scale = 1280 / long;
+            opts.compressedWidth = Math.round(info.width * scale);
+            opts.compressedHeight = Math.round(info.height * scale);
+          }
+          wx.compressImage({
+            src: opts.src,
+            quality: opts.quality,
+            compressedWidth: opts.compressedWidth,
+            compressedHeight: opts.compressedHeight,
+            success: function(r) { out.push(r.tempFilePath || src); next(); },
+            fail: function() { out.push(src); next(); }
+          });
+        },
+        fail: function() {
+          wx.compressImage({
+            src: src, quality: 70,
+            success: function(r) { out.push(r.tempFilePath || src); next(); },
+            fail: function() { out.push(src); next(); }
+          });
+        }
+      });
+    }
+    next();
   },
 
   removeImage: function(e) {
@@ -354,7 +395,7 @@ Page(Object.assign({}, M.methods, {
       success: function(res) {
         if (!res.confirm) return;
         try {
-          if (!store.remove(id)) {
+          if (!store.removeWithImages(id)) {
             wx.showToast({ title: '删除失败', icon: 'none' });
             return;
           }

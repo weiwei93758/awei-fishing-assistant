@@ -50,6 +50,23 @@ function remove(id) {
   return writeAll(list);
 }
 
+// 删除记录并清理它永久目录里的图片，避免孤儿文件占用空间
+function removeWithImages(id) {
+  var target = findById(id);
+  var ok = remove(id);
+  if (!ok || !target || !Array.isArray(target.images) || target.images.length === 0) return ok;
+  try {
+    if (typeof wx === 'undefined') return ok;
+    var fs = wx.getFileSystemManager();
+    var dir = wx.env.USER_DATA_PATH + '/fishing_images/';
+    target.images.forEach(function(src) {
+      if (typeof src !== 'string' || src.indexOf(dir) !== 0) return; // 只删本目录内的文件
+      try { fs.unlinkSync(src); } catch (e) {}
+    });
+  } catch (e) {}
+  return ok;
+}
+
 // 单条转移地区，同时更新地区名，返回是否成功
 function moveOne(id, regionId, regionName) {
   var list = readAll();
@@ -133,6 +150,7 @@ module.exports = {
   findById: findById,
   upsert: upsert,
   remove: remove,
+  removeWithImages: removeWithImages,
   moveOne: moveOne,
   relabel: relabel,
   backup: backup,

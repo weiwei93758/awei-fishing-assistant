@@ -60,5 +60,9 @@ Page(Object.assign({}, M.methods, {
 
   goTools() {
     wx.navigateTo({ url: '/pages/tools/tools' });
+  },
+
+  goData() {
+    wx.navigateTo({ url: '/pages/data/data' });
   }
 }));
