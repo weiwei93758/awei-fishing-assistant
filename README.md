@@ -80,8 +80,8 @@ var BUNDLE_OVERRIDES = {
 
 1. 下载并安装[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 2. 选择「导入项目」，项目目录选中本仓库根目录
-3. AppID 填写自己的小程序 AppID（工程内为游客模式 `touristappid`，仅可预览）
-4. 点击「编译」即可预览
+3. AppID 使用工程内已配置的本人小程序 AppID（`project.config.json`）；他人导入时请改为自己的 AppID 或选「测试号」
+4. 点击「编译」即可预览；上传到手机需点工具栏「上传」，再到微信公众平台把该版本「选为体验版」
 
 > 本项目为个人自用，未针对通用发布做适配。正式发布需在微信公众平台完成账号、类目与备案等流程。
 
@@ -131,7 +131,7 @@ fishing-miniapp/
 ├── templates/
 │   └── region-bar.wxml               共用地区下拉条
 ├── images/                           实景参考图片
-├── project.config.json               项目配置（游客 appid）
+├── project.config.json               项目配置（含本人小程序 AppID，无密钥）
 ├── LICENSE                           MIT 许可证
 └── sitemap.json
 ```
