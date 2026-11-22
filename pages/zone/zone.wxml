@@ -1,0 +1,45 @@
+<import src="/templates/region-bar.wxml" />
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">海域类型信息</text>
+    <text class="hero-sub">外海 · 内弯 · 养殖圈</text>
+    <text class="hero-note">按地区分别保存 · 只存在这台手机</text>
+  </view>
+
+  <template is="regionBar" data="{{regionNames, regionIndex, regionName}}" />
+
+  <view class="card">
+    <text class="section-title">填写说明</text>
+    <text class="note">三类为固定条目，当前地区：{{regionName}}。默认值是通用描述，不是当地实测；可按需修改名称、说明与注意事项。修改后点保存，切换地区不会互相覆盖。</text>
+    <text class="note" wx:if="{{bundle.dataNote}}" style="margin-bottom:0">{{bundle.dataNote}}</text>
+  </view>
+
+  <view class="card zone-card" wx:for="{{zones}}" wx:key="id">
+    <view class="zone-head">
+      <text class="zone-title">{{item.name}}</text>
+      <text class="zone-badge" wx:if="{{item.edited}}">已修改</text>
+      <text class="zone-badge zone-badge-default" wx:else>默认</text>
+    </view>
+
+    <view class="zone-field">
+      <text class="zone-label">名称</text>
+      <input class="zone-input" value="{{item.name}}" data-idx="{{index}}" data-field="name" bindinput="onFieldInput" maxlength="12" />
+    </view>
+    <view class="zone-field zone-field-col">
+      <text class="zone-label">这是什么水域</text>
+      <textarea class="zone-area" value="{{item.desc}}" data-idx="{{index}}" data-field="desc" bindinput="onFieldInput" maxlength="300" placeholder="描述水域形态、位置特征…" />
+    </view>
+    <view class="zone-field zone-field-col">
+      <text class="zone-label">注意事项 / 钓法提示</text>
+      <textarea class="zone-area" value="{{item.tips}}" data-idx="{{index}}" data-field="tips" bindinput="onFieldInput" maxlength="300" placeholder="安全提醒、管控要求、适用钓法…" />
+    </view>
+  </view>
+
+  <button class="btn btn-save" bindtap="save">保存当前地区的三类信息</button>
+  <button class="btn btn-reset" bindtap="reset">恢复默认值</button>
+
+  <view class="card">
+    <text class="section-title">在哪里看到</text>
+    <text class="note" style="margin-bottom:0">保存后，在「钓点」页顶部的“海域类型”卡片可查看当前地区的三类信息；「记一笔」的“海域类型”下拉也会使用这里的名称，并随每条记录保存。</text>
+  </view>
+</view>

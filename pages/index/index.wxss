@@ -138,6 +138,7 @@
 .quick-grid {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .quick-item {

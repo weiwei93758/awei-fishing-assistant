@@ -1,8 +1,13 @@
 // pages/record/record.js
 const M = require('../../utils/region-mixin.js');
 const regions = require('../../utils/regions.js');
+const Z = require('../../utils/zone-info.js');
 
 const STORAGE_KEY = 'fishing_records_v1';
+
+function buildZoneOptions(regionId) {
+  return Z.getZones(regionId).map(function(z) { return z.name; }).concat(['未标注']);
+}
 
 function buildForm() {
   return {
@@ -17,6 +22,7 @@ function buildForm() {
     waterIndex: 0,
     gearIndex: 0,
     fishIndex: 0,
+    zoneIndex: 0,
     catchText: '',
     note: '',
     images: []
@@ -26,6 +32,7 @@ function buildForm() {
 Page(Object.assign({}, M.methods, {
   data: Object.assign({}, M.baseData(), {
     opts: M.baseData().bundle.formOptions,
+    zoneNames: buildZoneOptions(M.baseData().regionId),
     form: buildForm(),
     records: [],
     today: ''
@@ -45,9 +52,9 @@ Page(Object.assign({}, M.methods, {
   },
 
   onShow: function() {
-    var before = this.data.regionId;
     this.syncRegion();
-    if (this.data.regionId === before) this.loadRecords();
+    this.setData({ zoneNames: buildZoneOptions(this.data.regionId) });
+    this.loadRecords();
   },
 
   onRegionUpdated: function(region) {
@@ -55,7 +62,8 @@ Page(Object.assign({}, M.methods, {
     var form = this.data.form;
     // 地区切换后钓点列表可能变短，防止下标越界
     if (form.spotIndex >= opts.spots.length) form.spotIndex = 0;
-    this.setData({ opts: opts, form: form });
+    if (form.zoneIndex >= buildZoneOptions(region.id).length) form.zoneIndex = 0;
+    this.setData({ opts: opts, form: form, zoneNames: buildZoneOptions(region.id) });
     this.loadRecords();
   },
 
@@ -151,6 +159,7 @@ Page(Object.assign({}, M.methods, {
       water: o.water[f.waterIndex],
       gear: o.gear[f.gearIndex],
       fish: o.fish[f.fishIndex],
+      zone: this.data.zoneNames[f.zoneIndex] || '未标注',
       catchText: f.catchText || '未填写',
       note: f.note || '',
       images: f.images.slice(),

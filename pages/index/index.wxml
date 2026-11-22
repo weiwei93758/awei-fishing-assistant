@@ -55,6 +55,16 @@
         <text class="quick-name">海钓乐趣词语</text>
         <text class="quick-desc">钓友黑话与术语速查</text>
       </view>
+      <view class="quick-item" bindtap="goRegionSettings">
+        <text class="quick-icon" style="background:#2e7d6b">📍</text>
+        <text class="quick-name">自定义定位</text>
+        <text class="quick-desc">经纬度、范围与潮汐点</text>
+      </view>
+      <view class="quick-item" bindtap="goZones">
+        <text class="quick-icon" style="background:#4a6fa5">🌊</text>
+        <text class="quick-name">海域类型</text>
+        <text class="quick-desc">外海 / 内弯 / 养殖圈</text>
+      </view>
     </view>
   </view>
 

@@ -13,6 +13,8 @@ var fishingLog = require('./fishing-log.js');
 var formModule = require('./form-options.js');
 
 var REGION_KEY = 'fishing_region_v1';
+var CUSTOM_KEY = 'fishing_custom_regions_v1';
+var PARAMS_KEY = 'fishing_region_params_v1';
 var DEFAULT_ID = 'guanghang';
 
 // ---------- 地区元数据（扩展入口） ----------
@@ -40,6 +42,107 @@ var REGION_META = [
 // 例：beihai: { spots: [...], logs: [...], dataNote: '' }
 // 注意：新增地区时只需在 REGION_META 加一项；只有要配专属资料时才在这里加覆盖。
 var BUNDLE_OVERRIDES = {};
+
+// ---------- 本机存储读写（自定义地区 / 定位参数） ----------
+function readList(key) {
+  try {
+    if (typeof wx === 'undefined') return [];
+    var v = wx.getStorageSync(key);
+    return Array.isArray(v) ? v : [];
+  } catch (e) { return []; }
+}
+
+function writeList(key, list) {
+  try {
+    if (typeof wx === 'undefined') return false;
+    wx.setStorageSync(key, list);
+    return true;
+  } catch (e) { return false; }
+}
+
+function readMap(key) {
+  try {
+    if (typeof wx === 'undefined') return {};
+    var v = wx.getStorageSync(key);
+    return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+  } catch (e) { return {}; }
+}
+
+function writeMap(key, map) {
+  try {
+    if (typeof wx === 'undefined') return false;
+    wx.setStorageSync(key, map);
+    return true;
+  } catch (e) { return false; }
+}
+
+function emptyParams() {
+  return { lat: '', lng: '', radiusKm: '', accuracy: '', tideLocation: '', note: '' };
+}
+
+function getParams(id) {
+  var map = readMap(PARAMS_KEY);
+  return Object.assign(emptyParams(), map[id] || {});
+}
+
+// 只保存用户填写的字段，不写入空默认值
+function setParams(id, params) {
+  if (!id) return false;
+  var map = readMap(PARAMS_KEY);
+  var clean = emptyParams();
+  var p = params || {};
+  Object.keys(clean).forEach(function(k) {
+    if (p[k] !== undefined && p[k] !== null) clean[k] = String(p[k]).trim();
+  });
+  map[id] = clean;
+  return writeMap(PARAMS_KEY, map);
+}
+
+function clearParams(id) {
+  var map = readMap(PARAMS_KEY);
+  delete map[id];
+  return writeMap(PARAMS_KEY, map);
+}
+
+function getCustomRegions() {
+  return readList(CUSTOM_KEY);
+}
+
+function addCustom(def) {
+  var list = readList(CUSTOM_KEY);
+  var d = def || {};
+  var id = 'custom_' + Date.now();
+  list.push({
+    id: id,
+    baseRegion: d.baseRegion || DEFAULT_ID,
+    name: String(d.name || '我的钓点').trim(),
+    createdAt: Date.now()
+  });
+  if (!writeList(CUSTOM_KEY, list)) return '';
+  if (d.params) setParams(id, d.params);
+  return id;
+}
+
+function updateCustom(id, def) {
+  var list = readList(CUSTOM_KEY);
+  var d = def || {};
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].id === id) {
+      if (d.name !== undefined) list[i].name = String(d.name).trim();
+      if (d.baseRegion !== undefined) list[i].baseRegion = d.baseRegion;
+      list[i].updatedAt = Date.now();
+      return writeList(CUSTOM_KEY, list);
+    }
+  }
+  return false;
+}
+
+function removeCustom(id) {
+  var list = readList(CUSTOM_KEY).filter(function(x) { return x.id !== id; });
+  var ok = writeList(CUSTOM_KEY, list);
+  if (ok) clearParams(id);
+  return ok;
+}
 
 // ---------- 通用模板（不含编造的本地数据） ----------
 function genericSafety() {
@@ -193,13 +296,64 @@ var REGIONS = REGION_META.map(function(meta) {
     heroSub: isDefault ? '鲅鱼圈 · 望海寨 · 广航一带' : (meta.name + ' · 通用参考'),
     showSatellite: own.showSatellite,
     dataNote: own.dataNote,
-    bundle: own
+    bundle: own,
+    custom: false,
+    baseId: meta.id
   };
 });
 
-function find(id) {
+// 内置地区（静态），供参考；实际下拉与查找请用 getAll()
+function findBuiltin(id) {
   for (var i = 0; i < REGIONS.length; i++) {
     if (REGIONS[i].id === id) return REGIONS[i];
+  }
+  return REGIONS[0];
+}
+
+function makeCustomRegion(def) {
+  // 自定义地区只能基于内置地区，避免递归解析
+  var base = findBuiltin(def.baseRegion);
+  var params = getParams(def.id);
+  var name = def.name || '我的钓点';
+  var bundle = Object.assign({}, base.bundle, {
+    heroSub: name + ' · 自定义定位',
+    dataNote: '自定义地区：基于「' + base.name + '」的资料模板，定位参数由你设置。资料内容仍需按当地实际情况核实。'
+  });
+  return {
+    id: def.id,
+    name: name,
+    short: name,
+    tideLocation: params.tideLocation || base.tideLocation,
+    heroSub: name + ' · 自定义定位',
+    showSatellite: base.showSatellite,
+    dataNote: bundle.dataNote,
+    bundle: bundle,
+    params: params,
+    custom: true,
+    baseId: base.id,
+    rev: def.id + '|' + JSON.stringify(params)
+  };
+}
+
+// 内置地区 + 自定义地区，每次读取本机最新数据
+function getAll() {
+  var paramsMap = readMap(PARAMS_KEY);
+  var builtins = REGIONS.map(function(r) {
+    var params = Object.assign(emptyParams(), paramsMap[r.id] || {});
+    return Object.assign({}, r, {
+      tideLocation: params.tideLocation || r.tideLocation,
+      params: params,
+      rev: r.id + '|' + JSON.stringify(params)
+    });
+  });
+  var customs = getCustomRegions().map(makeCustomRegion);
+  return builtins.concat(customs);
+}
+
+function find(id) {
+  var all = getAll();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === id) return all[i];
   }
   return null;
 }
@@ -212,7 +366,8 @@ function getCurrent() {
       if (saved && find(saved)) id = saved;
     }
   } catch (e) {}
-  return find(id) || find(DEFAULT_ID);
+  // 自定义地区可能已被删除，find 为空时回退默认地区
+  return find(id) || find(DEFAULT_ID) || REGIONS[0];
 }
 
 function setCurrent(id) {
@@ -224,20 +379,22 @@ function setCurrent(id) {
 }
 
 function getNames() {
-  return REGIONS.map(function(r) { return r.name; });
+  return getAll().map(function(r) { return r.name; });
 }
 
 function getIndex(id) {
-  for (var i = 0; i < REGIONS.length; i++) {
-    if (REGIONS[i].id === id) return i;
+  var all = getAll();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === id) return i;
   }
   return 0;
 }
 
 function getIdByIndex(idx) {
+  var all = getAll();
   var i = Number(idx);
-  if (isNaN(i) || i < 0 || i >= REGIONS.length) return DEFAULT_ID;
-  return REGIONS[i].id;
+  if (isNaN(i) || i < 0 || i >= all.length) return DEFAULT_ID;
+  return all[i].id;
 }
 
 // 兼容旧数据：没有 region 字段的本机记录一律视为广航
@@ -249,13 +406,23 @@ function isRecordOfRegion(record, regionId) {
 
 module.exports = {
   REGION_KEY: REGION_KEY,
+  CUSTOM_KEY: CUSTOM_KEY,
+  PARAMS_KEY: PARAMS_KEY,
   DEFAULT_ID: DEFAULT_ID,
   regions: REGIONS,
+  getAll: getAll,
   find: find,
   getCurrent: getCurrent,
   setCurrent: setCurrent,
   getNames: getNames,
   getIndex: getIndex,
   getIdByIndex: getIdByIndex,
+  getParams: getParams,
+  setParams: setParams,
+  clearParams: clearParams,
+  getCustomRegions: getCustomRegions,
+  addCustom: addCustom,
+  updateCustom: updateCustom,
+  removeCustom: removeCustom,
   isRecordOfRegion: isRecordOfRegion
 };

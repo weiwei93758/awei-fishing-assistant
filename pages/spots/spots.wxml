@@ -8,6 +8,20 @@
     <text class="note" style="margin-bottom:0">{{bundle.dataNote}}</text>
   </view>
 
+  <view class="card">
+    <view class="zone-list-head">
+      <text class="section-title" style="margin-bottom:0">海域类型 · {{regionName}}</text>
+      <text class="zone-edit" bindtap="goZones">编辑 ›</text>
+    </view>
+    <text class="note" style="margin-top:12rpx">外海 / 内弯 / 养殖圈三类信息按地区分别保存{{hasZoneCustom ? '，当前地区已有自定义内容' : '，当前为默认描述'}}。</text>
+    <view class="zone-mini" wx:for="{{zones}}" wx:key="id">
+      <text class="zone-mini-name">{{item.name}}</text>
+      <text class="zone-mini-desc">{{item.desc}}</text>
+      <text class="zone-mini-tips">{{item.tips}}</text>
+    </view>
+    <text class="note" style="margin-top:12rpx;margin-bottom:0">养殖圈属管控区域，不要进入或作钓；海况与开放情况以现场告示为准。</text>
+  </view>
+
   <view class="card spot-card" wx:for="{{spots}}" wx:key="id">
     <view class="spot-head">
       <text class="spot-title">{{item.name}}</text>

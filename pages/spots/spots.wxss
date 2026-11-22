@@ -46,3 +46,10 @@
   border-radius: 14rpx;
   margin: 12rpx 0 20rpx;
 }
+
+.zone-list-head { display: flex; align-items: center; justify-content: space-between; }
+.zone-edit { font-size: 24rpx; color: #0e6b8a; font-weight: 600; border: 2rpx solid #0e6b8a; border-radius: 20rpx; padding: 6rpx 16rpx; }
+.zone-mini { border-left: 6rpx solid #0e6b8a; background: #f4f8fb; border-radius: 8rpx; padding: 14rpx 18rpx; margin-top: 12rpx; }
+.zone-mini-name { display: block; font-size: 27rpx; font-weight: 700; color: #14333f; }
+.zone-mini-desc { display: block; font-size: 23rpx; color: #41606d; line-height: 1.5; margin-top: 6rpx; }
+.zone-mini-tips { display: block; font-size: 22rpx; color: #7a6a52; line-height: 1.5; margin-top: 6rpx; }

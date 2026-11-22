@@ -1,0 +1,33 @@
+.page { padding: 24rpx; background: #f4f8fb; min-height: 100vh; }
+
+.hero { background: linear-gradient(135deg, #0e6b8a, #2e7d6b); border-radius: 20rpx; padding: 32rpx 28rpx; margin-bottom: 24rpx; }
+.hero-title { display: block; color: #fff; font-size: 40rpx; font-weight: 700; }
+.hero-sub { display: block; color: #d6f0f7; font-size: 26rpx; margin-top: 10rpx; }
+.hero-note { display: block; color: #bfe4ee; font-size: 22rpx; margin-top: 8rpx; }
+
+.card { background: #fff; border-radius: 18rpx; padding: 28rpx 24rpx; margin-bottom: 24rpx; box-shadow: 0 2rpx 12rpx rgba(14,107,138,0.06); }
+.section-title { display: block; font-size: 30rpx; font-weight: 700; color: #14333f; margin-bottom: 14rpx; }
+.note { display: block; font-size: 22rpx; color: #6b7a84; line-height: 1.6; margin-bottom: 16rpx; }
+
+.sum-row { display: flex; padding: 10rpx 0; border-bottom: 2rpx solid #f2f5f7; }
+.sum-k { width: 180rpx; flex-shrink: 0; font-size: 24rpx; color: #52707d; }
+.sum-v { flex: 1; font-size: 25rpx; color: #14333f; line-height: 1.5; }
+
+.field { margin-bottom: 16rpx; }
+.field-col { display: flex; flex-direction: column; }
+.picker { display: flex; align-items: center; background: #f4f8fb; border: 1rpx solid #dce7ec; border-radius: 12rpx; padding: 18rpx 20rpx; }
+.picker-label { font-size: 24rpx; color: #52707d; width: 260rpx; flex-shrink: 0; }
+.picker-value { flex: 1; font-size: 25rpx; color: #14333f; }
+.picker-arrow { color: #7a8a94; font-size: 24rpx; }
+.text-input { background: #f4f8fb; border: 1rpx solid #dce7ec; border-radius: 12rpx; padding: 18rpx 20rpx; font-size: 26rpx; color: #14333f; margin-top: 10rpx; width: 100%; box-sizing: border-box; }
+.text-area { background: #f4f8fb; border: 1rpx solid #dce7ec; border-radius: 12rpx; padding: 18rpx 20rpx; font-size: 26rpx; color: #14333f; margin-top: 10rpx; min-height: 130rpx; width: 100%; box-sizing: border-box; }
+
+.custom-item { display: flex; align-items: center; flex-wrap: wrap; border: 1rpx solid #dce7ec; border-radius: 12rpx; padding: 16rpx 18rpx; margin-bottom: 12rpx; }
+.custom-name { font-size: 27rpx; font-weight: 700; color: #14333f; margin-right: 16rpx; }
+.custom-base { font-size: 21rpx; color: #7a8a94; }
+.custom-go { font-size: 22rpx; color: #0e6b8a; margin-left: auto; }
+
+.btn { border-radius: 12rpx; font-size: 28rpx; margin-top: 12rpx; }
+.btn-save { background: #0e6b8a; color: #fff; }
+.btn-reset { background: #eef3f6; color: #52707d; }
+.btn-danger { background: #fdf0e8; color: #c9522f; }

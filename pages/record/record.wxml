@@ -128,6 +128,17 @@
       </picker>
     </view>
 
+    <!-- 海域类型 -->
+    <view class="field">
+      <picker mode="selector" range="{{zoneNames}}" value="{{form.zoneIndex}}" data-field="zoneIndex" bindchange="onPickerChange">
+        <view class="picker">
+          <text class="picker-label">海域类型</text>
+          <text class="picker-value">{{zoneNames[form.zoneIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
     <!-- 渔获 -->
     <view class="field field-col">
       <text class="picker-label">渔获</text>
@@ -175,6 +186,7 @@
         <text class="rtag">{{item.tide}}</text>
         <text class="rtag">{{item.gear}}</text>
         <text class="rtag">{{item.fish}}</text>
+        <text class="rtag" wx:if="{{item.zone}}">{{item.zone}}</text>
       </view>
       <view class="rec-line"><text class="rk">天气 / 风</text><text class="rv">{{item.weather}} · {{item.wind}}</text></view>
       <view class="rec-line"><text class="rk">水况</text><text class="rv">{{item.water}}</text></view>
@@ -188,6 +200,6 @@
 
   <view class="card">
     <text class="section-title">说明</text>
-    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。每条记录会带上当前地区，切换地区只改变查看范围，不会删除其他地区的记录；历史钓记在“钓记”页按地区展示。</text>
+    <text class="note">记录保存在这台手机的小程序里，不联网、不上传、换手机不会自动带过去。潮汐、天气为手动选择的标签，不是自动读取的实时数据。每条记录会带上当前地区与海域类型（外海 / 内弯 / 养殖圈可在本机修改），切换地区只改变查看范围，不会删除其他地区的记录；历史钓记在“钓记”页按地区展示。</text>
   </view>
 </view>

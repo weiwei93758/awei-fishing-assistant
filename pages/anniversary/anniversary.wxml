@@ -92,7 +92,7 @@
           <text class="log-source">{{item.source}}</text>
         </view>
         <text class="log-main">{{item.result || item.text}}</text>
-        <text class="log-sub">{{item.spot}} ｜ {{item.tide || '潮汐未记录'}}</text>
+        <text class="log-sub">{{item.spot}} ｜ {{item.tide || '潮汐未记录'}}{{item.zone ? ' ｜ ' + item.zone : ''}}</text>
         <text class="log-note" wx:if="{{item.note}}">{{item.note}}</text>
       </view>
     </view>

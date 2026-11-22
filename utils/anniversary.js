@@ -107,6 +107,7 @@ function normalize(historyLogs, localRecords, spotLabel) {
       text: r.catchText || r.result || '未记录',
       result: r.result || '',
       spot: spotLabel || '广航一带',
+      zone: r.zone || '',
       source: '历史钓记',
       tide: r.tide || '',
       note: r.note || ''
@@ -126,6 +127,7 @@ function normalize(historyLogs, localRecords, spotLabel) {
       text: r.catchText || r.fish || '未记录',
       result: r.fish || '',
       spot: r.spot || '未记录',
+      zone: r.zone || '',
       source: '本机记录',
       tide: r.tide || '',
       note: r.note || ''

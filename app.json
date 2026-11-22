@@ -7,7 +7,9 @@
     "pages/record/record",
     "pages/tools/tools",
     "pages/anniversary/anniversary",
-    "pages/words/words"
+    "pages/words/words",
+    "pages/region/region",
+    "pages/zone/zone"
   ],
   "window": {
     "navigationBarTitleText": "阿威专属海钓",

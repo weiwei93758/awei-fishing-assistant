@@ -9,5 +9,6 @@
       </view>
     </picker>
     <text class="region-bar-tip">切换后内容同步更新</text>
+    <text class="region-bar-manage" bindtap="goRegionSettings">定位设置 ›</text>
   </view>
 </template>

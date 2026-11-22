@@ -1,0 +1,26 @@
+.page { padding: 24rpx; background: #f4f8fb; min-height: 100vh; }
+
+.hero { background: linear-gradient(135deg, #0e6b8a, #2e7d6b); border-radius: 20rpx; padding: 32rpx 28rpx; margin-bottom: 24rpx; }
+.hero-title { display: block; color: #fff; font-size: 40rpx; font-weight: 700; }
+.hero-sub { display: block; color: #d6f0f7; font-size: 26rpx; margin-top: 10rpx; }
+.hero-note { display: block; color: #bfe4ee; font-size: 22rpx; margin-top: 8rpx; }
+
+.card { background: #fff; border-radius: 18rpx; padding: 28rpx 24rpx; margin-bottom: 24rpx; box-shadow: 0 2rpx 12rpx rgba(14,107,138,0.06); }
+.section-title { display: block; font-size: 30rpx; font-weight: 700; color: #14333f; margin-bottom: 14rpx; }
+.note { display: block; font-size: 22rpx; color: #6b7a84; line-height: 1.6; margin-bottom: 18rpx; }
+
+.zone-card { padding-bottom: 12rpx; }
+.zone-head { display: flex; align-items: center; margin-bottom: 18rpx; }
+.zone-title { font-size: 32rpx; font-weight: 700; color: #14333f; }
+.zone-badge { font-size: 20rpx; color: #8a5b18; background: #fbf0dc; border-radius: 8rpx; padding: 4rpx 12rpx; margin-left: 14rpx; }
+.zone-badge-default { color: #5b7684; background: #eef3f6; }
+
+.zone-field { display: flex; align-items: center; margin-bottom: 16rpx; }
+.zone-field-col { display: block; }
+.zone-label { font-size: 24rpx; color: #52707d; width: 180rpx; flex-shrink: 0; }
+.zone-input { flex: 1; background: #f4f8fb; border: 1rpx solid #dce7ec; border-radius: 12rpx; padding: 14rpx 18rpx; font-size: 26rpx; color: #14333f; }
+.zone-area { background: #f4f8fb; border: 1rpx solid #dce7ec; border-radius: 12rpx; padding: 18rpx 20rpx; font-size: 25rpx; color: #14333f; margin-top: 10rpx; min-height: 120rpx; width: 100%; box-sizing: border-box; line-height: 1.5; }
+
+.btn { border-radius: 12rpx; font-size: 28rpx; margin-top: 8rpx; }
+.btn-save { background: #0e6b8a; color: #fff; }
+.btn-reset { background: #eef3f6; color: #52707d; margin-top: 12rpx; }
